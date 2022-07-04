@@ -1,0 +1,255 @@
+@charset "utf-8";
+
+/*******************************************
+* FLOWOLF ADMIN Custom Style
+* 팀명 : #DEV
+* 최초작성일 : 2018-09-18
+* 작성자 : UA(Kim ji su)
+*******************************************/
+
+.admin-body-wrap .col-md-2 {padding:0}
+.admin-body-wrap .col-md-10 {padding:0 30px}
+
+
+/*******************************************
+*
+* Note : head top
+*
+*******************************************/
+header.admin-head-top {position:fixed;display:block;width:100%;height:50px;background-color:#3F51B5;z-index:10000}
+header.admin-head-top .admin-logo {height:50px;padding:0 20px;font-size:20px;color:#fff;line-height:50px;text-align:center}
+
+/* top navigation */
+ul.admin-top-nav {margin:0}
+ul.admin-top-nav > li {float:left;height:50px;margin-left:15px;line-height:50px}
+ul.admin-top-nav > li:first-child {margin-left:0}
+ul.admin-top-nav > li .manager-info-btn {
+	height:34px;
+	margin-top:8px;
+	padding:5px 15px;
+	line-height:24px;
+	background-color:#5969C3;
+	border-radius:5px
+}
+
+/* top toggle box(manager info box) */
+ul.admin-top-nav li .manager-info-box {left:inherit;right:0;width:200px;padding:20px}
+ul.admin-top-nav li .manager-info-btn img {vertical-align:top}
+
+ul.admin-top-nav li .manager-info-box .manager-info-photo {width:60px;margin:0 auto}
+
+ul.admin-top-nav li .manager-info-box ul.manager-info-id li {width:100%;height:20px;line-height:20px}
+ul.admin-top-nav li .manager-info-box ul.manager-info-id li:hover {background-color:transparent}
+
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li {height:20px;margin-top:5px}
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li:first-child {margin-top:0}
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li a {display:block;height:20px;font-size:12px;color:#999;line-height:20px}
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li:hover,
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li a:hover {color:#333;background-color:transparent}
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li .icon-gear {width:14px;height:20px;background-position:0 -296px}
+ul.admin-top-nav li .manager-info-box ul.manager-info-nav li .icon-out {width:14px;height:20px;background-position:-100px -296px}
+
+
+/*******************************************
+*
+* Note : aside
+*
+*******************************************/
+.admin-aside {position:relative;height:100vh;min-height:100%;background-color:#fff}
+.admin-aside nav {position:fixed;top:0;bottom:0;left:0;z-index:9;width:16.66666667%;padding:90px 0;background-color:#fff}
+.admin-aside nav ul,
+.admin-aside nav ul li {width:100%}
+
+/* 1st section */
+.admin-aside nav > ul > li > a {
+	position:relative;
+	display:block;
+	height:50px;
+	padding:0 30px;
+	font-size:16px;
+	color:#484848;
+	line-height:50px;
+	text-decoration:none
+}
+.admin-aside nav > ul > li > a:hover {background-color:#f1f2f3}
+.admin-aside nav > ul > li > a[aria-expanded="true"] {background-color:#ddd}
+.admin-aside nav > ul > li > a > i.fa-caret-down {position:absolute;right:30px;top:17px}
+
+/* 2nd section */
+.admin-aside nav > ul > li > ul.admin-sub-nav li a {
+	position:relative;
+	display:block;
+	height:40px;
+	padding-left:60px;
+	font-size:14px;
+	color:#676767;
+	line-height:40px;
+	background-color:#eee
+}
+.admin-aside nav > ul > li > ul.admin-sub-nav li a:hover {background-color:#f1f2f3}
+.admin-aside nav > ul > li > ul.admin-sub-nav li a::after {
+	content:'';
+	position:absolute;
+	left:30px;
+	top:0;
+	bottom:0;
+	border-left:1px solid #ccc
+}
+.admin-aside nav > ul > li > ul.admin-sub-nav li a::before {
+	content:'';
+	position:absolute;
+	left:26px;
+	top:15px;
+	width:10px;
+	height:10px;
+	background-color:#ccc;
+	border-radius:50%
+}
+
+/*******************************************
+*
+* Note : admin contents
+*
+*******************************************/
+.col-md-10.admin-con-wrap {padding:90px 30px 40px 30px}
+.col-md-10.admin-con-wrap .admin-content {float:left;width:100%;padding:30px;letter-spacing:0;background-color:#fff}
+
+/* admin content */
+.admin-content table {margin:0}
+.admin-content table thead td {font-weight:bold}
+.admin-content table.table-hover tbody tr {cursor:pointer}
+.admin-content table tbody td {color:#666}
+
+/* member search */
+.mem-search-box {position:absolute;bottom:0;right:0}
+.mem-search-box select {
+	position:relative;
+	float:left;
+	width:120px;
+	height:36px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	border:0;
+	background-color:#fff;
+	background-position:-490px -86px
+}
+.mem-search-box input {float:left;width:250px;height:36px;padding:0 10px;line-height:36px;border:0}
+.mem-search-box button {overflow:hidden;float:left;width:36px;height:36px}
+
+/* member edit box */
+.mem-edit-box {display:none}
+.mem-edit-box dl,
+.mem-edit-box dl dt,
+.mem-edit-box dl dd {float:left}
+.mem-edit-box dl {width:100%;margin:0}
+.mem-edit-box dl dt {width:150px;margin-right:50px}
+.mem-edit-box dl dd {
+	position:relative;
+	width:-webkit-calc(100% - 200px);
+	width:-moz-calc(100% - 200px);
+	width:-o-calc(100% - 200px);
+	width:calc(100% - 200px);
+}
+.mem-edit-box dl dd table {float:left;width:44%;margin:0}
+.mem-edit-box dl dd table tr td {height:50px;padding:0;line-height:50px;border:0}
+.mem-edit-box dl dd table tr td:first-child {font-weight:300;color:#676767}
+.mem-edit-box dl dd table tr td input {height:36px;margin-top:8px;padding:0 10px;line-height:36px;border:0}
+.mem-edit-box dl dd table tr td input.active {border:1px solid #ccc;border-radius:5px}
+
+.mem-edit-box dl dd i.mem-edit-btn,
+.mem-edit-box dl dd i.mem-edit-close {position:absolute;top:0;font-size:20px;color:#ccc}
+.mem-edit-box dl dd i.mem-edit-btn:hover,
+.mem-edit-box dl dd i.mem-edit-close:hover {color:#676767}
+.mem-edit-box dl dd i.mem-edit-btn {right:30px}
+.mem-edit-box dl dd i.mem-edit-close {right:0px}
+.mem-edit-box dl dd input.mem-edit-save {display:none;position:absolute;right:0;bottom:0;width:54px;height:30px;line-height:30px;text-align:center}
+
+
+/* project kind management */
+.del-chk-btn {position:relative;display:block;width:40px;height:20px;background-color:#ccc;border-radius:20px}
+.del-chk-btn .del-chk-circle {position:absolute;width:20px;height:20px;top:0;background-color:#fff;border:1px solid #999;border-radius:100%;transition:all .3s}
+.del-chk-btn .del-chk-circle.on {left:0;border-color:#1abc9c}
+.del-chk-btn .del-chk-circle.off {left:20px;border-color:#ee6d66}
+
+/* project kind insert */
+.kind-insert-box {display:block;width:100%}
+.kind-insert-box input {float:left;height:36px;padding:0 10px;line-height:36px;border:0;}
+.kind-insert-box input[type="text"] {border:1px solid #ccc;border-right:0;border-radius:5px 0 0 5px}
+.kind-insert-box input[type="submit"] {border-radius:0 5px 5px 0}
+
+
+/* member statistics */
+.count-box {position:absolute;right:20px;bottom:20px;padding:5px 20px;border-radius:20px;opacity:.6}
+
+
+
+/*******************************************
+*
+* Note : admin edit page
+*
+*******************************************/
+.admin-edit-wrap {float:left;width:100%;margin-top:20px}
+.admin-edit-wrap .col-md-4 {padding-left:0}
+.admin-edit-wrap .col-md-8 {padding-right:0}
+.admin-edit-wrap .col-md-6:nth-child(2) {padding-left:0}
+.admin-edit-wrap .col-md-6:nth-child(3) {padding-right:0}
+
+.admin-edit-box {float:left;width:100%;padding:30px;background-color:#fff;border:1px solid #ccc}
+.admin-edit-box header,
+.admin-edit-box section,
+.admin-edit-box footer {float:left;width:100%}
+
+/* edit header */
+.admin-edit-box header {display:block;width:100%}
+.admin-edit-box header span {font-size:14px;letter-spacing:1}
+
+/* member profile img */
+.admin-profile-img {position:relative;width:150px;margin:0 auto}
+.admin-profile-img .file-btn-box {position:absolute;top:120px;right:10px;transition:all .3s;z-index:9999}
+.admin-profile-img .file-btn-box:hover {transition:all .3s cubic-bezier(.175, .885, .32, 1.275)}
+.admin-profile-img .file-btn-box .upload-btn {font-size:26px;color:#666;cursor:pointer}
+.admin-profile-img .file-btn-box .upload-btn:hover {color:#999;transition:all .3s}
+.admin-profile-img .file-btn-box .photo-upload {display:none}
+
+/* member profile info */
+.admin-profile-info {width:100%;margin-top:20px}
+.admin-profile-info table {float:left;width:100%;margin:0}
+.admin-profile-info table tr td {height:44px;padding:0;line-height:42px;border:0}
+.admin-profile-info table tr td:first-child {font-weight:300;color:#676767}
+.admin-profile-info table tr td input {width:100%;height:36px;margin-top:4px;line-height:36px;border:0}
+.admin-profile-info table tr td input.active {padding:0 10px;border:1px solid #ccc;border-radius:5px}
+
+/* member edit password input */
+.mem-pw-edit-input {display:block;width:100%;height:40px;padding:5px 10px;border:1px solid #ddd;border-radius:5px}
+
+/* edit layer pop-up footer */
+.admin-edit-footer {margin-top:30px;text-align:center}
+.admin-edit-footer input.submit-btn,
+.admin-edit-footer input.mem-edit-cancel {display:none}
+.admin-edit-footer input[type=button],
+.admin-edit-footer input[type=submit] {padding:5px 15px;border:1px solid #ddd;border-radius:5px}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

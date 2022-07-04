@@ -1,0 +1,165 @@
+@charset "utf-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css); /* noto-sans(본고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); /* Nanum Gothic(나눔고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css); /* Nanum Myeongjo(나눔명조) */
+
+
+/*******************************************
+* FLOWOLF Board Custom style
+* 팀명 : #DEV
+* 최초작성일 : 2018-10-05
+* 작성자 : UA(Kim ji su)
+*******************************************/
+
+
+/*******************************************
+*
+* Note : post list
+*
+*******************************************/
+
+/* post search */
+.post-search-box {position:absolute;bottom:0;right:0}
+.post-search-box select {
+	position:relative;
+	float:left;
+	width:120px;
+	height:36px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	border:0;
+	background-color:#fff;
+	background-position:-490px -86px
+}
+.post-search-box input {float:left;width:250px;height:36px;padding:0 10px;line-height:36px;border:0}
+.post-search-box button {overflow:hidden;float:left;width:36px;height:36px}
+
+/* post table */
+.post-content {width:100%;padding:30px;background-color:#fff}
+.post-content table {margin:0}
+.post-content table thead td {font-weight:bold}
+.post-content table.table-hover tbody tr {cursor:pointer}
+.post-content table.table-hover tbody tr:last-child {border-bottom:1px solid #ddd}
+.post-content table tbody td {color:#666}
+
+/* 새글 등록 버튼 */
+.post-content .post-insert-btn {padding:5px 15px;border:0;border-radius:5px}
+
+
+/*******************************************
+*
+* Note : post insert
+*
+*******************************************/
+/* post insert wrap */
+.post-insert-wrap {width:100%;padding:30px;background-color:#fff}
+
+/* post password input */
+.post-insert-wrap input#postPassword {width:250px;padding:5px 10px;border:1px solid #ddd;border-radius:5px}
+
+/* post insert title */
+.post-insert-tit {width:100%;height:60px;margin-bottom:30px;padding:10px 0;border-bottom:1px solid #ddd}
+.post-insert-tit input {height:40px;font-size:30px;border:0}
+/* .post-insert-tit input::placeholder {font-size:} */
+
+/* post insert content */
+.post-insert-cont {display:block;width:100%}
+
+/* post insert file list */
+.post-insert-file-list {display:block;width:100%}
+
+/* post insert file button */
+.post-insert-file-btn {position:absolute;left:0;bottom:0;z-index:9}
+.post-insert-file-btn label {padding:5px 15px;color:#999;background-color:#fff;border:1px solid #ddd;border-radius:5px}
+.post-insert-file-btn label:hover {color:#fff;background-color:#999}
+
+/* post insert button box */
+.post-insert-btn-box {position:relative;margin-top:30px;text-align:center}
+.post-insert-btn-box .default-btn {padding:5px 15px;border:0;border-radius:5px}
+
+
+
+/*******************************************
+*
+* Note : post detail
+*
+*******************************************/
+.post-detail-wrap {width:100%;padding:30px;background-color:#fff}
+
+/* 게시글 네비게이션 */
+.post-nav {display:block;width:100%}
+.post-nav a:first-child::after {content:'>';margin:0 10px}
+
+/* 게시글 정보 */
+.post-info {float:left;width:100%;height:30px;margin-bottom:30px;border-bottom:1px solid #ddd}
+.post-info li {list-style-type:none;float:left;margin-left:30px;font-size:14px;color:#999;letter-spacing:0.04em}
+.post-info li:first-child {margin-left:0}
+
+/* 게시글 첨부파일 목록 */
+.post-file-list {display:block;float:left;width:100%;padding-top:30px;margin-top:30px;border-top:1px solid #ddd}
+
+/* 목록 / 수정 / 삭제 버튼 */
+.post-btn-box {display:block;float:left;width:100%;margin-top:30px}
+.post-btn-box a {padding:5px 15px;color:#333;background-color:#fff;border:1px solid #ddd;border-radius:5px}
+.post-btn-box a:hover {color:#746fcc;border-color:#746fcc}
+.post-btn-box ul li {float:left;margin-left:10px}
+.post-btn-box ul li:first-child {margin-left:0}
+.post-btn-box ul li:last-child a {color:#fff;border:0}
+
+/* post footer */
+.post-footer {float:left;width:100%;padding:20px;background-color:#f1f2f3;border:1px solid #ccc;border-width:1px 0 1px}
+
+/* post comment box */
+.post-comment-box {float:left;width:100%}
+
+/* post comment list */
+.post-comment-box .post-comment-list {display:block;float:left;width:100%;margin-bottom:20px}
+.post-comment-box .post-comment-list .post-comment-img {position:relative;float:left;width:40px}
+.post-comment-box .post-comment-list .post-comment-con {
+	float:left;
+	width:-webkit-calc(100% - 40px);
+	width:-moz-calc(100% - 40px);
+	width:-o-calc(100% - 40px);
+	width:calc(100% - 40px);
+	padding-left:20px;
+	letter-spacing:0
+}
+.post-comment-box .post-comment-list .post-comment-con ul li {float:left}
+.post-comment-box .post-comment-list .post-comment-con ul li i {font-size:15px;color:#999;cursor:pointer}
+.post-comment-box .post-comment-list .post-comment-con ul li i:hover {color:#333}
+
+/* post comment edit */
+.post-comment-box .comment-edit-box {display:none}
+.post-comment-box .comment-edit-box .comment-textarea {padding:10px;border:1px solid #ccc}
+.post-comment-box .comment-edit-box .comment-textarea textarea {width:100%;height:50px;background-color:#f1f2f3;border:0}
+
+/* post comment insert */
+.post-comment-insert {display:block;float:left;width:100%}
+.post-comment-insert .post-comment-text {
+	float:left;
+	width:90%;
+	padding:8px 5px;
+	border:1px solid #ccc;
+}
+.post-comment-insert .post-comment-text textarea {
+	resize:none;
+	overflow-y:hidden;
+	float:left;
+	width:100%;
+	height:44px;
+	line-height:150%;
+	background-color:transparent;
+	border:0;
+}
+.post-comment-insert .post-comment-btn {float:right;width:10%;padding-left:20px}
+.post-comment-insert .post-comment-btn input {width:100%;height:60px;line-height:60px;text-align:center;background-color:#fff;border:0}
+
+
+
+
+

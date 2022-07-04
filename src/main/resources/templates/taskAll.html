@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content">
+
+                <!-- task all content : s -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <!-- task all title -->
+                    <strong class="dis-block marbtm-20 size-20 color-gray" th:text="'전체 업무(' + ${#lists.size(taskList)} + ')'"></strong>
+
+                    <!-- task select toggle navigation button -->
+                    <a href="#taskAllCollapse" class="task-all-collapse" data-toggle="collapse" aria-expanded="false" aria-controls="taskAllCollapse">
+                        <i class="fas fa-list-ul maright-10"></i> 보기설정
+                    </a>
+
+                    <!-- task all select -->
+                    <div id="taskAllCollapse" class="task-collapse-box collapse marbtm-20">
+
+                        <!-- 업무구분 -->
+                        <div class="coll-select-box">
+                            <strong class="size-18 default-color">업무구분</strong>
+                            <ul>
+                                <li>
+                                    <input type="radio" name="allTaskKind" id="taskAll-my" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkTaskList(this)" th:data-id="${#authentication.getPrincipal().getMember().mem_nick}">
+                                    <label for="taskAll-my">내 업무</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="allTaskKind" id="taskAll-re" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkTaskList(this)" th:data-id="${#authentication.getPrincipal().getMember().mem_nick}">
+                                    <label for="taskAll-re">요청한 업무</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="allTaskKind" id="taskAll-all" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkTaskList(this)" checked>
+                                    <label for="taskAll-all">전체 업무</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <script type="text/javascript">
+                        // 내 업무, 요청한 업무, 전체 업무 check function
+                        function fn_checkTaskList(el){
+                            var item = $(el);
+                            var dataId = item.attr('data-id');
+                            var manager = $('.table').find('.task-manager');
+                            var managerUser = manager.children('span');
+                            var writer = $('.table').find('.task-writer');
+
+                            $('.table tbody tr').css('display', 'none');	// 전체 tr 숨기기
+
+                            // 내 업무 체크시
+                            if(item.attr('id')=='taskAll-my') {
+                                managerUser.each(function(i, e){
+                                    if(managerUser.eq(i).text() == dataId
+                                            && managerUser.eq(i).parent().parent('tr').css('display') == 'none'){
+                                        managerUser.eq(i).parent().parent('tr').show();
+                                    }
+                                });
+                            } else if(item.attr('id') == 'taskAll-re'){	// 요청한 업무 체크시
+                                writer.each(function(i, e){
+                                    if(writer.eq(i).text() == dataId
+                                            && writer.eq(i).parent().css('display') == 'none'){
+                                        writer.eq(i).parent().show();
+                                    }
+                                });
+                            } else {
+                                $('.table tbody tr').show();
+                            }
+
+                        }
+                        </script>
+
+                        <!-- 상태 -->
+                        <div class="coll-select-box martop-15">
+                            <strong class="size-18 default-color">상태</strong>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="taskAll-state-request" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-state-request">요청</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-state-progress" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-state-progress">진행</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-state-feedback" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-state-feedback">피드백</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-state-success" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-state-success">완료</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-state-hold" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-state-hold">보류</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 우선순위 -->
+                        <div class="coll-select-box martop-15">
+                            <strong class="size-18 default-color">우선순위</strong>
+                            <ul>
+                                <li>
+                                    <input type="checkbox" id="taskAll-pri-emergency" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-pri-emergency">긴급</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-pri-high" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-pri-high">높음</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-pri-normal" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-pri-normal">보통</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-pri-low" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-pri-low">낮음</label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="taskAll-pri-null" onchange="fn_checkTaskAll(this)" class="custom-check-input" checked>
+                                    <label for="taskAll-pri-null">없음</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 시작일 -->
+                        <div class="coll-select-box martop-15">
+                            <strong class="size-18 default-color">시작일</strong>
+                            <ul>
+                                <li>
+                                    <input type="radio" name="startDate" id="taskAll-start-date" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkStartDate(this)" checked>
+                                    <label for="taskAll-start-date">전체</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="startDate" id="taskAll-start-today" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkStartDate(this)">
+                                    <label for="taskAll-start-today">오늘</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="startDate" id="taskAll-start-week" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkStartDate(this)">
+                                    <label for="taskAll-start-week">이번주</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="startDate" id="taskAll-start-month" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkStartDate(this)">
+                                    <label for="taskAll-start-month">이번달</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="startDate" id="taskAll-start-null" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkStartDate(this)">
+                                    <label for="taskAll-start-null">날짜미정</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 마감일 -->
+                        <div class="coll-select-box martop-15" style="padding:0;border:0">
+                            <strong class="size-18 default-color">마감일</strong>
+                            <ul>
+                                <li>
+                                    <input type="radio" name="endDate" id="taskAll-end-date" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkEndDate(this)" checked>
+                                    <label for="taskAll-end-date">전체</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="endDate" id="taskAll-end-today" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkEndDate(this)">
+                                    <label for="taskAll-end-today">오늘까지</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="endDate" id="taskAll-end-week" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkEndDate(this)">
+                                    <label for="taskAll-end-week">이번주까지</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="endDate" id="taskAll-end-month" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkEndDate(this)">
+                                    <label for="taskAll-end-month">이번달까지</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="endDate" id="taskAll-end-null" class="custom-radio-input schd-radio"
+                                           onchange="fn_checkEndDate(this)">
+                                    <label for="taskAll-end-null">날짜미정</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+
+                    <!-- collection content wrap : s -->
+                    <div class="collection-con-wrap">
+
+                        <table class="table marbtm-0 text-center">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="8%">
+                                <col width="10%">
+                                <col width="35%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="7%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <td>번호</td>
+                                <td>상태</td>
+                                <td>우선순위</td>
+                                <td>제목</td>
+                                <td>진척도</td>
+                                <td>담당자</td>
+                                <td>작성자</td>
+                                <td>마감일</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="task : ${taskList}">
+                                <tr>
+                                    <td th:text="${taskStat.count}">taskStat.count</td>
+                                    <td>
+                                        <th:block th:if="${#strings.equals(task.task_state, '요청') }">
+                                            <span class="task-state-box back-color-blue-l" data-id="taskAll-state-request" th:text="${task.task_state}">task.task_state</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_state, '진행') }">
+                                            <span class="task-state-box back-color-green-l" data-id="taskAll-state-progress" th:text="${task.task_state}">task.task_state</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_state, '피드백') }">
+                                            <span class="task-state-box back-color-orange" data-id="taskAll-state-feedback" th:text="${task.task_state}">task.task_state</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_state, '완료') }">
+                                            <span class="task-state-box default-back-color" data-id="taskAll-state-success" th:text="${task.task_state}">task.task_state</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_state, '보류') }">
+                                            <span class="task-state-box back-color-gray" data-id="taskAll-state-hold" th:text="${task.task_state}">task.task_state</span>
+                                        </th:block>
+                                    </td>
+                                    <td>
+                                        <th:block th:if="${#strings.equals(task.task_priority, '긴급') }">
+                                            <span class="task-all-rank flow-icon icon-emer" data-id="taskAll-pri-emergency" th:text="${task.task_priority}">task.task_priority</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_priority, '높음') }">
+                                            <span class="task-all-rank flow-icon icon-high" data-id="taskAll-pri-high" th:text="${task.task_priority}">task.task_priority</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_priority, '보통') }">
+                                            <span class="task-all-rank flow-icon icon-basic" data-id="taskAll-pri-normal" th:text="${task.task_priority}">task.task_priority</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.equals(task.task_priority, '낮음') }">
+                                            <span class="task-all-rank flow-icon icon-low" data-id="taskAll-pri-low" th:text="${task.task_priority}">task.task_priority</span>
+                                        </th:block>
+                                        <th:block th:if="${#strings.isEmpty(task.task_priority) }">
+                                            <span data-id="taskAll-pri-null">-</span>
+                                        </th:block>
+                                    </td>
+                                    <td class="task-td-con">
+                                        <span class="dis-block size-16 color-black" th:text="${task.task_title}">task.task_title</span>
+                                        <span class="dis-block size-12 color-gray" th:text="${task.project.pro_name}">task.project.pro_name</span>
+                                    </td>
+                                    <td>
+                                        <div class="task-pcnt-bar task-pcnt-" th:attrappend="class=${task.task_rate}"><span th:text="${task.task_rate}">task.task_rate</span></div>
+                                    </td>
+                                    <td class="task-manager">
+                                            <th:block th:if="${#lists.size(task.memberList) == 0}" th:text="'-'"></th:block>
+                                            <th:block th:if="${#lists.size(task.memberList) == 1}" th:text="${task.memberList[0].mem_nick}"></th:block>
+                                            <th:block th:if="${#lists.size(task.memberList) gt 1}" th:text="${task.memberList[0].mem_nick} + '님 외 ' + ${#lists.size(task.memberList) - 1} + '명'"></th:block>
+                                            <span class="dis-none" th:each="taskUser : ${task.memberList}" th:text="${taskUser.mem_nick}">taskUser.mem_nick</span>
+                                    </td>
+                                    <td class="task-writer" th:text="${task.member.mem_nick}">task.member.mem_nick</td>
+                                    <td>
+                                        <span class="task-start-date dis-none" th:text="${task.task_start_date}">task.task_start_date</span>
+                                        <span class="task-end-date" th:text="${task.task_end_date}">task.task_end_date</span>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- collection content wrap : f -->
+
+                </div>
+                <!-- task all content : f -->
+
+                <script type="text/javascript">
+                // 업무 '상태', '우선순위' 체크시 리스트 show & hide
+                function fn_checkTaskAll(el){
+                    var item = $(el);
+                    var id = item.attr('id');
+                    var stateBox = $('.table').find('span');
+
+                    stateBox.each(function(i, e){
+                        if(stateBox.eq(i).attr('data-id') == id){
+                            if(stateBox.eq(i).parent().parent('tr').css('display') == 'none'){
+                                stateBox.eq(i).parent().parent('tr').show();
+                            } else {
+                                stateBox.eq(i).parent().parent('tr').hide();
+                            }
+                        }
+                    });
+                }
+                </script>
+
+            </section>
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+
+<script src="/js/common.js"></script>
+
+</body>
+</html>

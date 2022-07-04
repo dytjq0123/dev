@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content">
+
+                <!-- file all content : s -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <!-- file all top : s -->
+                    <div class="coll-file-top dis-block marbtm-20">
+
+                        <!-- file box title -->
+                        <th:block th:if="${not #strings.isEmpty(filesKind)}">
+                            <strong class="size-20 color-gray" th:text="'프로젝트 : ' + ${project.pro_name} + '(' + ${#lists.size(filesList)} + ')'"></strong>
+                        </th:block>
+                        <th:block th:unless="${not #strings.isEmpty(filesKind)}">
+                            <strong class="size-20 color-gray" th:text="'전체 파일 (' + ${#lists.size(filesList)} + ')'"></strong>
+                        </th:block>
+
+
+                        <!-- file box search : s -->
+                        <div class="file-search-box">
+                            <i class="fas fa-search color-gray"></i>
+                            <input type="text" id="searchFilter" onkeyup="{ filter(this); return false; }"
+                                   onkeypress="javascript:if(event.keyCode==13){ filter(this); return false; }">
+                        </div>
+                        <!-- file box search : f -->
+                    </div>
+
+                    <!-- collection content wrap : s -->
+                    <div class="collection-con-wrap files-con-wrap">
+
+                        <table class="table marbtm-0 text-center" style="letter-spacing:0">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="40%">
+                                <col th:if="${not #strings.equals(filesKind, 'project')}" width="15%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <td>번호</td>
+                                <td>파일명</td>
+                                <td th:if="${not #strings.equals(filesKind, 'project')}">프로젝트명</td>
+                                <td>작성자</td>
+                                <td>등록일</td>
+                                <td>파일크기</td>
+                                <td>다운로드</td>
+                            </tr>
+                            </thead>
+                            <tbody id="filesTbody">
+                            <th:block th:each="files : ${filesList}">
+                                <tr th:data-name="${files.files_name }">
+                                    <td th:text="${filesStat.count}">filesStat.count</td>
+                                    <td class="files-name-td">
+                                        <i class="dis-inblock file-icon-s" th:data-name="${files.files_name }"></i>
+                                        <span class="dis-inblock" th:text="${files.files_name}">files.files_name</span>
+                                    </td>
+                                    <td th:if="${not #strings.equals(filesKind, 'project')}" th:text="${files.project.pro_name}"></td>
+                                    <td th:text="${files.member.mem_nick}">files.member.mem_nick</td>
+                                    <td th:text="${#temporals.format(files.files_time, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${files.files_size}">files.files_size</td>
+                                    <td>
+                                        <a th:href="@{/files/download?files_no=} + ${files.files_no }" class="coll-file-down-btn dis-inblock"><i class="fas fa-download"></i></a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- collection content wrap : f -->
+
+                </div>
+                <!-- file all content : f -->
+                <script type="text/javascript">
+                    $(function(){
+
+                        // 첨부파일 이미지 바꾸기
+                        $("#filesTbody tr").each(function(i, e){
+                            var iconTag = $(this).find("i.dis-inblock");
+                            var dataName = iconTag.attr("data-name");
+                            fileExCheck(iconTag);
+                        });
+
+                    });
+                </script>
+
+            </section>
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+<!-- alert custom -->
+
+<script src="/js/common.js"></script>
+
+</body>
+</html>

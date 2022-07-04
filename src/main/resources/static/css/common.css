@@ -1,0 +1,352 @@
+@CHARSET "UTF-8";
+
+/*******************************************
+* FLOWOLF Common Style
+* 팀명 : #DEV
+* 최초작성일 : 2018-08-28
+* 작성자 : UA(Kim ji su)
+*******************************************/
+
+/* reset */
+* {margin:0;padding:0}
+*:not(.rep_cont) {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}
+body {
+	position:relative;
+	height:100%;
+	font-family:'Noto Sans KR','Malgun Gothic', 'Nanum Gothic', dotum, sans-serif, Apple Gothic;
+	background-color:#e4e6e9
+}
+ul, ul li {list-style-type:none}
+a, a:hover {text-decoration:none}
+h1,h2,h3,h4,h5,h6 {margin:0}
+button, input[type=button], input[type=submit], input[type=reest] {border:0;background-color:transparent}
+input::placeholder,
+textarea::placeholder {color:#a0a0a0}
+
+/* go to top */
+#gotoTop {position:fixed;right:30px;bottom:30px;z-index:10001;opacity:.3}
+
+/*******************************************
+* Note : position
+* value : relative / absolute / fixed
+*******************************************/
+.posi-re {position:relative}
+.posi-ab {position:absolute}
+.posi-fix {position:fixed}
+
+/*******************************************
+* Note : display
+* value : block / inline-block / none
+*******************************************/
+.dis-block {display:block !important}
+.dis-inblock {display:inline-block !important}
+.dis-none {display:none !important}
+
+/*******************************************
+* Note : overflow / -x / -y
+* value : hidden / visible / scroll
+*******************************************/
+.over-hidden {overflow:hidden}
+.over-x-hidden {overflow-x:hidden}
+.over-y-hidden {overflow-y:hidden}
+
+.over-visible {overflow:visible}
+.over-x-visible {overflow-x:visible}
+.over-y-visible {overflow-y:visible}
+
+.over-scroll {overflow:scroll}
+.over-x-scroll {overflow-x:scroll}
+.over-y-scroll {overflow-y:scroll}
+
+/*******************************************
+* Note : float
+* value : left / center / right
+*******************************************/
+.float-left {float:left}
+.float-center {float:center}
+.float-right {float:right}
+
+/*******************************************
+* Note : box-sizing : border-box
+*******************************************/
+.border-box {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box
+}
+
+/*******************************************
+* Note : text-align
+*******************************************/
+.text-left {text-align:left}
+.text-center {text-align:center}
+.text-right {text-align:right}
+.text-justify {text-align:justify}
+
+/*******************************************
+* Note : cursor
+*******************************************/
+.cursor-point {cursor:pointer}
+
+/*******************************************
+* Note : flow icon
+*******************************************/
+.flow-icon {background:url('/image/design_basic.png') no-repeat}
+
+/*******************************************
+* Note : photo circle
+*******************************************/
+.icon-circle {position:absolute;overflow:hidden;left:0;top:0;z-index:99;background:url('/image/design_basic.png') no-repeat}
+.circle-b {width:150px;height:150px;background-position:0 -50px}
+.circle-m {width:60px;height:60px;background-position:-200px -50px}
+.circle-s {width:40px;height:40px;background-position:-300px -50px}
+.circle-xs {width:24px;height:24px;background-position:-300px -100px}
+.circle-s-re {width:40px;height:40px;background-position:-300px -150px}
+.circle-xs-re {width:24px;height:24px;background-position:-300px -200px}
+.circle-xs-admin {width:24px;height:24px;background-position:-400px -200px}
+
+/*******************************************
+* Note : input[type="checkbox"] custom
+*******************************************/
+/* Base for checkbox label styling(기본 체크박스 라벨 스타일) */
+.custom-check-input {display:none}
+.custom-check-input:not(:checked) + label,
+.custom-check-input:checked + label {position:relative;padding-left:30px;font-weight:normal;font-size:14px;color:#676767;cursor:pointer}
+
+/* checkbox before */
+.custom-check-input:not(:checked) + label:before,
+.custom-check-input:checked + label:before {
+	content:'';
+	position:absolute;
+	top:0; left:0;
+	width:20px; height:20px;
+	border:1px solid #ddd;
+	border-radius:2px;
+	background-color:#fff;
+	box-shadow:inset 0 1px 3px rgba(0, 0, 0, .1)
+}
+
+/* checked after:mark */
+.custom-check-input:not(:checked) + label:after,
+.custom-check-input:checked + label:after {
+	content:'✔';
+	position:absolute;
+	top:2px; left:5px;
+	font-size:1.4em;
+	line-height:0.8;
+	color:#2b3991;
+	transition:all .2s;
+}
+
+/* checked mark aspect changes */
+.custom-check-input:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+.custom-check-input:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* disabled checkbox */
+.custom-check-input:disabled:not(:checked) + label:before,
+.custom-check-input:disabled:checked + label:before {box-shadow:none;border-color:#bbb;background-color:#ddd}
+.custom-check-input:disabled:checked + label:after {color:#999}
+.custom-check-input:disabled + label {color:#aaa}
+
+/* accessibility(check해제 했을 시)
+input[type="checkbox"]:checked:focus + label:before,
+input[type="checkbox"]:not(:checked):focus + label:before {border:2px dotted blue}
+ */
+ 
+/* hover style just for information */
+label:hover:before {border:1px solid #4778d9!important}
+
+/*******************************************
+* Note : input[type="radio"] custom
+*******************************************/
+.custom-radio-input:checked,
+.custom-radio-input:not(:checked) {
+    position: absolute;
+    left: -9999px;
+}
+.custom-radio-input:checked + label,
+.custom-radio-input:not(:checked) + label
+{
+    position: relative;
+    padding-left: 36px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+}
+.custom-radio-input:checked + label:before,
+.custom-radio-input:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #fff;
+}
+.custom-radio-input:checked + label:after,
+.custom-radio-input:not(:checked) + label:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #2b3991;
+    position: absolute;
+    top: 24.5px;
+    left: 5px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.custom-radio-input:disabled + label:after{
+	background-color:#999
+}
+.custom-radio-input:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+.custom-radio-input:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+/*******************************************
+* Note : file icon class
+*******************************************/
+.file-icon {overflow:hidden;width:46px;height:46px;background:url('/image/icon-file-list.png') no-repeat}
+.file-icon-s {overflow:hidden;width:26px;height:26px;background:url('/image/icon-file-list.png') no-repeat}
+.file-icon.file-default {background-position:0 0}
+.file-icon.file-hwp {background-position:-100px 0}
+.file-icon.file-excel {background-position:-200px 0}
+.file-icon.file-word {background-position:-300px 0}
+.file-icon.file-ppt {background-position:-400px 0}
+.file-icon.file-outlook {background-position:-500px 0}
+.file-icon.file-pdf {background-position:0 -100px}
+.file-icon.file-img {background-position:-100px -100px}
+.file-icon.file-video {background-position:-200px -100px}
+.file-icon.file-audio {background-position:-300px -100px}
+.file-icon.file-zip {background-position:-400px -100px}
+
+.file-icon-s.file-default {background-position:0 -200px}
+.file-icon-s.file-hwp {background-position:-100px -200px}
+.file-icon-s.file-excel {background-position:-200px -200px}
+.file-icon-s.file-word {background-position:-300px -200px}
+.file-icon-s.file-ppt {background-position:-400px -200px}
+.file-icon-s.file-outlook {background-position:-500px -200px}
+.file-icon-s.file-pdf {background-position:0 -250px}
+.file-icon-s.file-img {background-position:-100px -250px}
+.file-icon-s.file-video {background-position:-200px -250px}
+.file-icon-s.file-audio {background-position:-300px -250px}
+.file-icon-s.file-zip {background-position:-400px -250px}
+
+
+/*******************************************
+* Note : aside scroll
+*******************************************/
+.swiper-container {overflow:visible;width:100%;height:100%}
+.swiper-slide {
+	height:auto;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.swiper-scrollbar {opacity:0}
+
+/*******************************************
+* Note : layer pop-up common style
+*******************************************/
+.dim-layer {display:none;position:fixed;_position:absolute;top:0;left:0;width:100%;height:100%;z-index:10001}
+.dim-layer .dimBg {position:absolute;top:0;left:0;width:100%;height:100%;background:#000;opacity:.5;filter:alpha(opacity=50)}
+
+.dim-layer .pop-layer {display:block;position:absolute;top:50%;left:50%;width:380px;height:auto;background-color:#fff;border-radius:10px;z-index:10}
+
+/* pop top */
+.pop-layer header.pop-top {position:relative;width:100%;height:40px;padding:0 15px;font-size:14px;line-height:40px;background-color:#ddd;border-radius:10px 10px 0 0}
+.pop-layer header.pop-top .icon-close {top:12px;right:15px;width:16px;height:16px;background:url('/image/design_basic.png') no-repeat;background-position:-500px -300px;text-indent:-5000px}
+
+/* pop con */
+.pop-layer section.pop-con {width:100%;padding:15px}
+.pop-layer section.pop-con h3 {margin:0 0 10px 0;font-size:16px;color:#333}
+.pop-layer section.pop-con input.pop-input {width:100%;height:40px;padding:0 10px;line-height:38px;border:0;border-bottom:1px solid #ccc}
+.pop-layer section.pop-con input.pop-input.input-line {border:1px solid #ccc;border-radius:2px}
+.pop-layer section.pop-con label {width:100%;font-weight:500;font-size:12px;color:#777;line-height:20px;vertical-align:middle}
+.pop-layer section.pop-con input[type=radio] {float:left;margin-right:5px}
+.pop-layer section.pop-con textarea {width:100%;height:80px;padding:15px;font-size:15px;color:#484848;border:1px solid #ccc;border-radius:5px}
+
+/* pop footer */
+.pop-layer footer.pop-footer {width:100%;padding:0 15px 15px;text-align:center}
+.pop-layer footer.pop-footer .pop-btn {width:80px;height:32px;font-size:14px;line-height:32px;border:0;border-radius:2px;text-align:center}
+.pop-layer footer.pop-footer .pop-btn.default-btn {color:#333;border:1px solid #ccc}
+.pop-layer footer.pop-footer .pop-btn.submit-btn {color:#fff}
+
+/*******************************************
+* Note : layer pop-up custom style : add project
+*******************************************/
+.pop-layer.pop-add-project {width:560px}
+.pop-layer.pop-add-project .pro-kind-box {width:100%}
+
+/*******************************************
+* Note : layer pop-up custom style : user profile
+*******************************************/
+.pop-layer.profile-pop section.pop-con {padding:0}
+.pop-layer.profile-pop .profile-pic {
+	display:block;
+	width:100%;
+	height:300px;
+	background-repeat:no-repeat;
+	background-size:cover;
+	background-position:center;
+}
+.pop-layer.profile-pop .pop-profile-info {height:200px;padding:20px 30px}
+.pop-layer.profile-pop .pop-user-nick {display:block;width:100%;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #ddd}
+.pop-layer.profile-pop .pop-user-id {letter-spacing:0.1em !important}
+.pop-layer.profile-pop .prof-edit-btn {display:inline-block}
+
+/*******************************************
+* Note : layer pop-up custom style : project folder edit
+*******************************************/
+#proFolderEdit section.pop-con ul,
+#proFolderEdit section.pop-con ul li {width:100%;margin-top:10px}
+#proFolderEdit section.pop-con ul li:first-child {margin-top:0}
+#proFolderEdit section.pop-con ul li label {font-size:16px}
+
+
+/*******************************************
+* Note : Drop down menu style
+*******************************************/
+.dropdown-menu li {height:30px;padding:0 10px;font-size:13px;line-height:30px}
+.dropdown-menu li:hover {background-color:#f1f2f3}
+.dropdown-menu li.drop-tit,
+.dropdown-menu li.drop-tit:hover {height:34px;font-size:16px;line-height:34px;background-color:transparent}
+
+
+/*******************************************
+* Note : flowolf alert style
+*******************************************/
+.flowolf-alert {display:none;position:fixed;top:50px;left:50%;z-index:99999}
+
+
+
+
+
+
+
+
+
+
+

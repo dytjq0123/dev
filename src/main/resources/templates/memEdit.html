@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content main">
+
+                <strong class="mem-edit-tit">환경설정<span>Preferences</span></strong>
+
+                <!-- member edit wrap : s -->
+                <div class="mem-edit-wrap">
+
+                    <!-- FLOWOLF Profile : s -->
+                    <div class="col-md-6">
+                        <div class="mem-box">
+                            <i class="fas fa-user-circle color-gray"></i>
+
+                            <div class="mem-box-info">
+                                <strong class="dis-block marbtm-10 size-24">FLOWOLF 프로필</strong>
+                                <p class="marbtm-15 size-17 color-black text-justify">
+                                    FLOWOLF에서 <span class="color-red">'나'를 표현하는 프로필</span>정보입니다. 수정화면에서 프로필 사진과 정보를 수정하세요.
+                                </p>
+
+                                <a href="#memInfoEditPop" class="mem-edit-pop-btn">수정</a>
+                            </div>
+
+<!--                            <%@include file="/include/mem_edit_info.jsp" %>-->
+                            <div th:replace="fragments/member/mem_edit_info :: mem_edit_info"></div>
+                        </div>
+                    </div>
+                    <!-- FLOWOLF Profile : f -->
+
+                    <!-- Password Edit : s -->
+                    <div class="col-md-6">
+                        <div class="mem-box">
+
+                            <th:block th:if="${#strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'g') or #strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'k')}">
+<!--                            <c:if test="${memVo.mem_howjoin == 'g' || memVo.mem_howjoin == 'k'}">-->
+                                <div class="coming-soon-bg"></div>
+                                <div class="coming-soon-txt pw-edit-soon">비밀번호 수정을 원하시면 해당 사이트(카카오 or 구글)에서 이용해주시기 바랍니다.</div>
+<!--                            </c:if>-->
+                            </th:block>
+
+                            <i class="fas fa-unlock color-gray"></i>
+
+                            <div class="mem-box-info">
+                                <strong class="dis-block marbtm-10 size-24">비밀번호 변경</strong>
+                                <p class="marbtm-15 size-17 color-black text-justify">
+                                    FLOWOLF <span class="color-red">비밀번호를 변경</span>할 수 있습니다. 주기적인 비밀번호 변경을 통해 개인정보를 안전하게 보호하세요.
+                                </p>
+
+                                <a href="#memPwEditPop" class="mem-edit-pop-btn">수정</a>
+                            </div>
+
+<!--                            <%@include file="/include/mem_edit_pw.jsp" %>-->
+                            <div th:replace="fragments/member/mem_edit_pw :: mem_edit_pw"></div>
+                        </div>
+                    </div>
+                    <!-- Password Edit : f -->
+
+                    <!-- Alim Edit : s -->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="mem-box martop-20">-->
+
+<!--                            <div class="coming-soon-bg"></div>-->
+<!--                            <div class="coming-soon-txt">준비중입니다.</div>-->
+
+<!--                            <i class="far fa-bell color-gray"></i>-->
+
+<!--                            <div class="mem-box-info">-->
+<!--                                <strong class="dis-block marbtm-10 size-24">알림설정</strong>-->
+<!--                                <p class="marbtm-15 size-17 color-black text-justify">-->
+<!--                                    FLOWOLF 내 각종 <span class="color-red">알림에대한 설정</span>을 할 수 있습니다.-->
+<!--                                </p>-->
+
+<!--                                <a href="#memAlimEditPop" class="mem-edit-pop-btn">수정</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <!-- Alim Edit : f -->
+
+                    <!-- Member Out : s -->
+                    <div class="col-md-6">
+                        <div class="mem-box martop-20">
+                            <i class="fas fa-user-alt-slash color-gray"></i>
+
+                            <div class="mem-box-info">
+                                <strong class="dis-block marbtm-10 size-24">회원탈퇴</strong>
+                                <p class="marbtm-15 size-17 color-black text-justify">
+                                    <span class="color-red">탈퇴한 아이디는 본인과 타인 모두 재사용 및 복구가 불가</span>하오니 신중하게 선택하시기 바랍니다.
+                                </p>
+
+                                <a href="#memOutPop" class="mem-edit-pop-btn">회원탈퇴</a>
+                            </div>
+
+<!--                            <%@include file="/include/mem_edit_out.jsp" %>-->
+                            <div th:replace="fragments/member/mem_edit_out :: mem_edit_out"></div>
+                        </div>
+                    </div>
+                    <!-- Member Out : f -->
+
+                </div>
+                <!-- member edit wrap : f -->
+
+                <script type="text/javascript">
+                $(function(){
+                    // 각 수정 버튼 클릭시 layer popup 띄우기
+                    $('.mem-edit-pop-btn').click(function(){
+                        var $href = $(this).attr('href');
+                        layer_popup($href);
+                    });
+                });
+                </script>
+            </section>
+
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+<!-- alert custom -->
+<div class="alert flowolf-alert"></div>
+
+<script src="/js/common.js"></script>
+
+</body>
+</html>

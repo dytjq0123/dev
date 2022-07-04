@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 위 코드가 mapper 설정을 하는 코드 -->
+
+<!-- Mapper를 사용하는 Repository의 전체 경로를 적어줘야함. -->
+<mapper namespace="kr.or.dev.repository.mapper.FilesMapperRepository">
+
+    <!-- 해당 글의 첨부파일 조회(일반, 업무, 댓글, 게시판)	-->
+    <select id="getFilesList" parameterType="map" resultType="FilesMapperDto">
+        SELECT *
+        FROM files
+        WHERE ${timeline_col} = #{timeline_no}
+    </select>
+
+    <!-- 파일 검색 조회  -->
+    <select id="getFilesSearchList" parameterType="map" resultType="FilesMapperDto">
+        SELECT *
+        FROM files
+        WHERE ${searchField} like '%'||#{searchData}||'%'
+    </select>
+
+    <!-- 회원이 참여중인 프로젝트의 (일반,업무)글의 파일 조회 -->
+    <select id="getFilesBaTaAllList" parameterType="map" resultType="FilesMapperDto">
+        SELECT f.*
+            , a.pro_name
+            , (SELECT mem.mem_nick
+                FROM member mem
+                WHERE mem.mem_id = a.mem_id) AS mem_nick
+        FROM files f
+            , (SELECT b.*
+                    , (SELECT pro.pro_name
+                        FROM project pro
+                        WHERE pro.pro_no = b.pro_no) AS pro_name
+                FROM ${timeline} b
+                    , (SELECT *
+                        FROM project_user
+                        WHERE mem_id = #{mem_id}) p
+                WHERE b.pro_no = p.pro_no) a
+        WHERE f.${timeline}_no = a.${timeline}_no
+    </select>
+
+    <!-- 회원이 참여중인 프로젝트의 해당 타임라인의 댓글 파일 조회 -->
+    <select id="getFilesRepAllList" parameterType="map" resultType="FilesMapperDto">
+        SELECT f.*
+            , e.pro_name
+            , (SELECT mem.mem_nick
+                FROM member mem
+                WHERE mem.mem_id = e.mem_id) AS mem_nick
+        FROM files f
+            , (SELECT d.*
+                    , c.pro_name
+                FROM reply d
+                    , (SELECT b.*
+                            , (SELECT pro.pro_name
+                                FROM project pro
+                                WHERE pro.pro_no = b.pro_no) AS pro_name
+                        FROM ${timeline} b
+                            , (SELECT *
+                                FROM project_user
+                                WHERE mem_id = #{mem_id}) a
+                        WHERE b.pro_no = a.pro_no) c
+                WHERE d.${timeline_col} = c.${timeline_col}) e
+        WHERE e.rep_no = f.rep_no
+    </select>
+
+    <!-- 프로젝트 (일반, 업무)글의 파일 조회 -->
+    <select id="getProFilesBaTaAllList" parameterType="map" resultType="FilesMapperDto">
+        SELECT f.*
+            , (SELECT mem.mem_nick
+                FROM member mem
+                WHERE mem.mem_id = a.mem_id) AS mem_nick
+        FROM files f
+            , (SELECT b.*
+                FROM ${timeline} b
+                WHERE b.pro_no = #{pro_no}) a
+        WHERE f.${timeline}_no = a.${timeline}_no
+    </select>
+
+    <!-- 프로젝트의 해당 타임라인의 댓글 파일 조회 -->
+    <select id="getProFilesRepAllList" parameterType="map" resultType="FilesMapperDto">
+        SELECT f.*
+            , (SELECT mem.mem_nick
+                FROM member mem
+                WHERE mem.mem_id = e.mem_id) AS mem_nick
+        FROM files f
+            , (SELECT d.*
+                FROM reply d
+                    , (SELECT b.*
+                        FROM ${timeline} b
+                        WHERE b.pro_no = #{pro_no}) c
+                WHERE d.${timeline_col} = c.${timeline_col}) e
+        WHERE e.rep_no = f.rep_no
+    </select>
+
+</mapper>

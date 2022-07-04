@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+
+/*******************************************
+* FLOWOLF Color style
+* 팀명 : #DEV
+* 최초작성일 : 2018-08-28
+* 작성자 : UA(Kim ji su)
+*******************************************/
+
+.default-color {color:#2b3991 !important}
+.default-back-color {background-color:#2b3991 !important}
+
+.color-white {color:#fff !important}
+.back-color-white {background-color:#fff !important}
+
+.color-red {color:#ee6d66 !important}
+.back-color-red {background-color:#ee6d66 !important}
+
+.color-pink {color:#f8a5c2 !important}
+.back-color-pink {background-color:#f8a5c2 !important}
+
+.color-orange {color:#e67e22 !important}
+.back-color-orange {background-color:#e67e22 !important}
+
+.color-yellow {color:#fcff00 !important}
+.back-color-yellow {background-color:#fcff00 !important}
+
+.color-yellow-d {color:#f1c40f !important}
+.back-color-yellow-d {background-color:#f1c40f !important}
+
+.color-green {color:#1abc9c !important}
+.back-color-green {background-color:#1abc9c !important}
+
+.color-green-l {color:#26de81 !important}
+.back-color-green-l {background-color:#26de81 !important}
+
+.color-blue-l {color:#45aaf2 !important}
+.back-color-blue-l {background-color:#45aaf2 !important}
+
+.color-blue-d {color:#34495e !important}
+.back-color-blue-d {background-color:#34495e !important}
+
+.color-pupple {color:#9b59b6 !important}
+.back-color-pupple {background-color:#9b59b6 !important}
+
+.color-pupple-l {color:#746fcc !important}
+.back-color-pupple-l {background-color:#746fcc !important}
+
+.color-gray {color:#8d8e90 !important}
+.back-color-gray {background-color:#8d8e90 !important}
+
+.color-gray-l {color:#ccc !important}
+.back-color-gray-l {background-color:#ccc !important}
+
+.color-black {color:#4b4b4b !important}
+.back-color-black {background-color:#4b4b4b !important}

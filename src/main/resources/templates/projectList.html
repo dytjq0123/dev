@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content main">
+
+                <!-- total count -->
+                <h1><span th:text="${what} + ${#lists.size(projectList)}"></span></h1>
+
+                <!-- project list:s -->
+                <div class="project-wrap">
+                    <th:block th:each="project : ${projectList}">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+                            <div class="project-box">
+                                <!-- project title box -->
+                                <div class="pro-tit-box " th:attrappend="class=${not #strings.isEmpty(project.pro_color)  ? project.pro_color : 'default-back-color'}">
+                                    <div class="check-import" th:data-prono="${project.pro_no }">
+                                        <i class="fas fa-star size-20 " th:attrappend="class=${project.imp_chk == 1  ? 'color-yellow cursor-point' : 'color-gray-l cursor-point'}"></i>
+                                    </div>
+                                    <a th:href="@{/pro/detail/{pro_no} (pro_no=${project.pro_no})}">
+                                        <span class="dis-block size-24 color-white text-center cursor-point pro-click" th:text="${project.pro_name }"></span>
+                                    </a>
+                                </div>
+
+                                <!-- project member list -->
+                                <a th:href="@{/pro/detail/{pro_no} (pro_no=${project.pro_no})}">
+                                    <div class="pro-mem-list-box dis-block cursor-point pro-click-mem">
+                                        <ul class="pro-mem-photo">
+                                            <th:block th:if="${proUserStat.index lt 2}" th:each="proUser : ${project.memberList}">
+                                                <li>
+                                                    <i class="icon-circle circle-s"></i>
+                                                    <img th:src="@{/mem/pic?mem_id=} + ${proUser.mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40px">
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                        <div class="pro-mem-info">
+                                            <strong th:if="${#lists.size(project.memberList) gt 1 }" th:text="${project.memberList[0].mem_nick} + '님 외 ' + ${#lists.size(project.memberList)-1} + '명'"></strong>
+                                            <strong th:unless="${#lists.size(project.memberList) gt 1 }" th:text="${#authentication.getPrincipal().getMember().mem_nick } + '님 참여중'"></strong>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+
+<!--                <form id="detailFom" action="/pro/detail" method="get">-->
+<!--                    <input type="hidden" id="prono" name="pro_no" value="" >-->
+<!--                </form>-->
+
+                <script type="text/javascript">
+                $(function(){
+
+                    // 프로젝트 타이틀 길이에 따라 위치 다르게 적용하기
+                    $(".pro-click").each(function(){
+                        var height = $(this).height();
+                        var result = -(height / 2) + 10;
+                        $(this).css("margin-top", result+"px");
+                    });
+
+                    // project import check(main page)
+                    $(".check-import").on("click", function(){
+                        if($(this).find("i").hasClass("color-gray-l")){
+                            $(this).find("i").removeClass("color-gray-l");
+                            $(this).find("i").addClass("color-yellow");
+
+                            var pro_no = $(this).data("prono");
+
+                            $.ajax({
+
+                                url : "/imp/insert",
+                                method : "get",
+                                data : {pro_no:pro_no},
+                                dataType : "json",
+                                success : function(data){
+                                    if(data==1){
+                                        alertCustom("변경되었습니다.", "alert-warning");
+                                    }
+                                }
+                            });
+                        } else {
+                            $(this).find("i").removeClass("color-yellow");
+                            $(this).find("i").addClass("color-gray-l");
+
+                            var pro_no = $(this).data("prono");
+
+                            $.ajax({
+
+                                url : "/imp/delete",
+                                method : "get",
+                                data : {pro_no:pro_no},
+                                dataType : "json",
+                                success : function(data){
+                                    if(data==1){
+                                        alertCustom("변경되었습니다.", "alert-warning");
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                    // pro-click 클릭이벤트
+                    $(".pro-click").click(function(){
+                        var pro_no = $(this).siblings(".check-import").data("prono");
+                        $("#prono").val(pro_no);
+                        $("#detailFom").submit();
+                    });
+
+                    // pro-click-mem 클릭이벤트
+                    $(".pro-click-mem").click(function(){
+                        var item = $(this);
+                        var proClick = item.siblings(".pro-tit-box").children(".pro-click");
+                        proClick.click();
+                    });
+
+                });
+                </script>
+                <!-- project list:f -->
+
+            </section>
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+
+<script src="/js/common.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<header id="goTop" class="head-top" th:fragment="top">
+
+    <!-- logo -->
+    <div class="logo"><a href="/pro/main"><img src="/image/logo.png"></a></div>
+
+    <!-- other icon navigation:s -->
+    <div class="float-right">
+        <div class="top-icon-nav">
+            <!-- icon navigation list -->
+            <ul class="icon-nav-list">
+                <li><a href="#searchBox" class="top-icon flow-icon icon-search"></a></li>
+                <li><a href="/post/list?post_kind=notice" class="top-icon flow-icon icon-mark"></a></li>
+                <li><a href="/post/list?post_kind=qa" class="top-icon flow-icon icon-question"></a></li>
+                <li class="chat-ptn cursor-point"><i class="top-icon flow-icon icon-comment"></i></li>
+                <li>
+                    <!-- alim btn -->
+                    <a id="alimToggle" class="top-icon flow-icon icon-bell cursor-point" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+
+                    <!-- alim content box:s -->
+                    <div class="dropdown-menu alim-con-box" aria-labelledby="alimToggle">
+                        <div style="display:flex;overflow:auto;height:100%" data-simplebar>
+                            <dl class="cursor-point no-check" th:each="alim : ${#authentication.getPrincipal().getMember().alimList}" th:attrappend="class=${(alim.partner.ptn_no != null && alim.accept_date == null) ? 'alim-pop' : ''}">
+                                <dt class="posi-re">
+                                    <i class="icon-circle circle-s"></i>
+                                    <img th:src="@{/mem/pic?mem_id=} + ${alim.apply}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                                </dt>
+                                <dd>
+                                    <!-- 									<div class="dis-block martop-5 font-bold size-18 color-black">친구신청</div> -->
+                                    <div class="dis-block martop-5 size-15 color-black"><span th:text="${list.alim_cont }"></span> </div>
+                                    <div class="dis-block size-13 color-gray"><span th:text="${#temporals.format(alim.alim_time, 'yyyy-MM-dd HH:mm:ss')}"></span></div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!-- alim content box:f -->
+                </li>
+                <li>
+                    <!-- user info btn:s -->
+                    <div id="userInfo" class="martop-8 cursor-point" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="posi-re over-hidden dis-inblock float-left maright-10" style="height:24px;">
+                            <i class="icon-circle circle-xs"></i>
+                            <img th:src="@{/mem/pic?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="24">
+                        </div>
+                        <span class="dis-inblock float-left maright-20 size-16 color-gray" th:text="${#authentication.getPrincipal().getMember().mem_nick }"></span>
+                        <i class="fas fa-caret-down float-left color-gray" style="line-height:1.5;"></i>
+                    </div>
+                    <!-- user info btn:f -->
+
+                    <!-- user info box:s -->
+                    <div class="dropdown-menu user-info-box" aria-labelledby="userInfo">
+                        <div class="posi-re user-info-photo">
+                            <i class="icon-circle circle-m"></i>
+                            <img th:src="@{/mem/pic?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="60">
+                        </div>
+                        <ul class="dis-block martop-10 marbtm-15 padbtm-15 text-center" style="border-bottom:1px solid #ccc">
+                            <li class="size-18 color-black" th:text="${#authentication.getPrincipal().getMember().mem_nick }"></li>
+                            <li class="size-16 color-gray" th:text="${#authentication.getPrincipal().getMember().mem_id }"></li>
+                        </ul>
+                        <ul class="user-info-nav">
+                            <li><a href="/mem/memEdit"><i class="float-left maright-10 flow-icon top-icon icon-gear"></i>환경설정</a></li>
+                            <li><a href="/login/logout" class="logout" style="cursor:pointer;"><i class="float-left maright-10 flow-icon top-icon icon-out"></i>로그아웃</a></li>
+                        </ul>
+                    </div>
+                    <!-- user info box:f -->
+                </li>
+            </ul>
+
+            <!-- 채팅 아이콘  클릭시 나오는 팝업부분 : s -->
+            <div class="chat-ptn-wrap" style="display: none">
+                <div th:insert="fragments/top_chat_drop_box :: top_chat_drop_box"></div>
+            </div>
+            <!-- 채팅 아이콘  클릭시 나오는 팝업부분 : f -->
+
+        </div>
+    </div>
+    <!-- other icon navigation:f -->
+
+
+    <!-- search form:s -->
+    <div class="search-box">
+        <form name="searchForm" action="get" action="">
+            <div class="col-sm-3 col-md-2 col-lg-2">
+                <select name="searchType">
+                    <option value="project">프로젝트</option>
+                    <option value="article">글</option>
+                    <option value="people">참여자</option>
+                </select>
+            </div>
+            <div class="posi-re col-sm-9 col-md-10 col-lg-10 padleft-50">
+                <input type="text" name="searchName" class="col-md-10 search-input" placeholder="검색할 내용을 입력하세요">
+                <button type="submit" class="search-icon">search</button>
+                <button type="button" class="close-icon">close</button>
+            </div>
+        </form>
+    </div>
+    <!-- search form:f -->
+
+    <script type="text/javascript">
+
+
+	</script>
+</header>

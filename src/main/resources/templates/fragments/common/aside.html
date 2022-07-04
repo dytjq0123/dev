@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- navbar-con:s -->
+<nav class="navbar-con" th:fragment="aside">
+
+    <div class="swiper-container asdie-scroll">
+        <div class="swiper-scrollbar"></div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+
+                <!-- aside nav list:PROJECT -->
+                <h1>PROJECT</h1>
+                <ul class="nav-list">
+                    <li><a th:href="@{/pro/all}"><i class="fas fa-bars color-white"></i><span>전체</span></a></li>
+                    <li><a th:href="@{/imp/list}"><i class="fas fa-star color-yellow"></i><span>중요</span></a></li>
+                </ul>
+
+                <!-- aside nav list:COLLECTION MENU -->
+                <h1>COLLECTION MENU</h1>
+                <ul class="nav-list collection-nav">
+                    <li><a th:href="@{/task/taskAll?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id }"><i class="fas fa-laptop color-green-l"></i><span>전체 업무</span></a></li>
+                    <li><a th:href="@{/schd/callCalendar}"><i class="far fa-calendar-alt color-red"></i><span>전체 일정</span></a></li>
+                    <li><a th:href="@{/files/fileBox?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id }"><i class="fas fa-download color-blue-l"></i><span>전체 파일</span></a></li>
+                    <li><a th:href="@{/coll/collArticle}"><i class="far fa-bookmark color-pupple"></i><span>담아둔 글</span></a></li>
+                    <!-- 					<li><a href=""><i class="fas fa-at color-red"></i><span>나를 지정</span></a></li> -->
+                    <li><a th:href="@{/coll/myArticle}"><i class="fas fa-user-edit color-gray"></i><span>내 게시물</span></a></li>
+                </ul>
+
+                <!-- aside nav list:MY FOLDER : open -->
+                <h1>MY FOLDER <a href="#addFolder" class="add-folder-pop-btn marleft-10 color-gray"><i class="fas fa-plus-square"></i></a></h1>
+                <ul class="nav-list nav-folder" style="padding-bottom:0;border:0">
+                    <li class="nav-folder-open" th:each="box : ${#authentication.getPrincipal().getMember().boxList}" onmouseover="navOver(this)" onmouseout="navOut(this)">
+                        <a class="folder-detail cursor-point" th:data-boxno="${box.box_no }" th:data-boxname="${box.box_name }"><i class="far fa-folder color-gray"></i><span th:text="${box.box_name }"></span></a>
+                        <div class="edit-btn">
+                            <a class="folder-edit cursor-point"><i class="fas fa-pen"></i></a><!-- 수정 -->
+                            <a class="folder-delete cursor-point"><i class="fas fa-trash-alt"></i></a><!-- 삭제 -->
+                        </div>
+                    </li>
+
+                    <!-- : close -->
+<!--                    <li class="nav-folder-close">-->
+<!--                        <a href="#folderSub" class="folder-toggle-btn"><i class="far fa-folder color-white"></i><span>보관함</span></a>-->
+<!--                        <ul id="folderSub" class="sub-nav-list">-->
+<!--                            <li class="sub-list-tit"><a href="#addFolder" class="add-folder-pop-btn"><i class="fas fa-plus-square maright-10"></i>Add Folder</a></li>-->
+<!--                            <li class="posi-re" th:each="box : ${#authentication.getPrincipal().getMember().boxList}" onmouseover="navOver(this)" onmouseout="navOut(this)">-->
+<!--                                <a class="folder-detail cursor-point" th:data-boxno="${box.box_no }" th:data-boxname="${box.box_name }"><i class="far fa-folder maright-10 color-gray"></i><span th:text="${box.box_name }"></span></a>-->
+<!--                                <div class="edit-btn">-->
+<!--                                    <a class="folder-edit cursor-point"><i class="fas fa-pen"></i></a>&lt;!&ndash; 수정 &ndash;&gt;-->
+<!--                                    <a class="folder-delete cursor-point"><i class="fas fa-trash-alt"></i></a>&lt;!&ndash; 삭제 &ndash;&gt;-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                </ul>
+
+                <form id="boxDetail" action="/boxPro/list" method="get">
+                    <input type="hidden" id="box_no" name="box_no">
+                    <input type="hidden" id="box_name" name="box_name">
+                </form>
+
+                <!-- aside footer -->
+                <div class="aside-footer">
+                    &copy;Copyright 2022 #DEV.<br>
+                    All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+<!-- navbar-con:f -->
+
+</html>

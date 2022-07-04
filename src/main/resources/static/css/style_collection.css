@@ -1,0 +1,199 @@
+@charset "utf-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css); /* noto-sans(본고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); /* Nanum Gothic(나눔고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css); /* Nanum Myeongjo(나눔명조) */
+
+
+/*******************************************
+* FLOWOLF Collection Custom Style
+* 팀명 : #DEV
+* 최초작성일 : 2018-09-28
+* 작성자 : UA(Kim ji su)
+*******************************************/
+
+.content .col-lg-12 {padding:0}
+
+/*******************************************
+*
+* Note : task all (전체 업무 / 프로젝트 업무)
+*
+*******************************************/
+/* collapse button */
+a.task-all-collapse {position:absolute;top:0;right:0;padding:5px 15px}
+a.task-all-collapse[aria-expanded=false] {color:#999;background-color:#fff}
+a.task-all-collapse[aria-expanded=true] {color:#fff;background-color:#45aaf2}
+
+/* collapse box */
+.task-collapse-box {float:left;width:100%;padding:30px;background-color:#fff}
+.task-collapse-box .coll-select-box {float:left;width:100%;padding-bottom:15px;border-bottom:1px solid #dfdfdf}
+.task-collapse-box .coll-select-box strong {display:inline-block;float:left;width:120px}
+.task-collapse-box .coll-select-box ul {float:left;margin-bottom:0}
+.task-collapse-box .coll-select-box ul li {float:left;width:120px;margin-left:15px}
+.task-collapse-box .coll-select-box ul li:first-child {margin-left:0}
+.task-collapse-box .coll-select-box ul li label {margin:0}
+
+/* collection content wrap box */
+.collection-con-wrap {display:block;float:left;width:100%;padding:20px;background-color:#fff}
+.collection-con-wrap table.table thead td {font-weight:bold;font-size:16px;color:#999}
+.collection-con-wrap table.table tbody td {height:50px;max-height:50px;line-height:2.4}
+.collection-con-wrap table.table tbody td.task-td-con {line-height:1.3;text-align:left}
+
+/* 업무상태표시 */
+.task-state-box {display:block;width:100%;height:28px;margin-top:3px;font-size:13px;color:#fff;line-height:28px;border-radius:5px}
+
+/* 우선수위 */
+.task-all-rank {display:block;width:100%;height:34px;padding-left:20px;line-height:34px}
+.task-all-rank.icon-low {background-position:-80px -340px}
+.task-all-rank.icon-basic {background-position:-180px -337px}
+.task-all-rank.icon-high {background-position:-280px -340px}
+.task-all-rank.icon-emer {background-position:-380px -340px}
+
+/* 진척도 */
+.task-pcnt-bar {
+	position:relative;
+	display:block;
+	width:100%;
+	height:20px;
+	margin-top:7px;
+	line-height:20px;
+	background-color:#ccc;
+	border-radius:5px;
+	z-index:9
+}
+.task-pcnt-bar::before {content:'';position:absolute;top:0;bottom:0;left:0;background-color:#1abc9c;border-radius:5px;z-index:1}
+.task-pcnt-bar.task-pcnt-0::before {content:'';right:100%}
+.task-pcnt-bar.task-pcnt-20::before {content:'';right:80%}
+.task-pcnt-bar.task-pcnt-40::before {content:'';right:60%}
+.task-pcnt-bar.task-pcnt-60::before {content:'';right:40%}
+.task-pcnt-bar.task-pcnt-80::before {content:'';right:20%}
+.task-pcnt-bar.task-pcnt-100::before {content:'';right:0}
+.task-pcnt-bar span {position:absolute;left:0;right:0;top:0;bottom:0;z-index:9;}
+
+/*******************************************
+*
+* Note : full schedule (전체 일정 / 프로젝트 일정)
+*
+*******************************************/
+
+/*******************************************
+* full schedule left content(전체일정 좌측단)
+*******************************************/
+
+
+
+/*******************************************
+* full schedule right content(전체일정 우측단)
+*******************************************/
+.full-calendar-right {}
+
+/* 스케쥴 설정 리스트 */
+ul.schd-edit {display:block;width:100%;margin:0 0 20px 0;padding-bottom:20px;border-bottom:1px solid #ccc}
+ul.schd-edit li {width:100%;padding:7px 10px}
+ul.schd-edit li:hover {background-color:#d4d6d9}
+ul.schd-edit li label {margin-bottom:0}
+
+/* '내가 등록한 일정' check box before */
+.schd-my-check:not(:checked) + label:before,
+.schd-my-check:checked + label:before {
+	border:0;
+	background-color:#ee6d66;
+}
+
+/* '내가 등록한 일정' check box after:mark */
+.schd-my-check:not(:checked) + label:after,
+.schd-my-check:checked + label:after {
+	color:#fff !important;
+}
+
+/* '초대받은 일정' check box before */
+.schd-invite-check:not(:checked) + label:before,
+.schd-invite-check:checked + label:before {
+	border:0;
+	background-color:#f1c40f;
+}
+/* '초대받은 일정' check box after:mark */
+.schd-invite-check:not(:checked) + label:after,
+.schd-invite-check:checked + label:after {
+	color:#fff !important;
+}
+
+/* '모든 일정' check box before */
+.schd-all-check:not(:checked) + label:before,
+.schd-all-check:checked + label:before {
+	border:0;
+	background-color:#45aaf2;
+}
+/* '모든 일정' check box after:mark */
+.schd-all-check:not(:checked) + label:after,
+.schd-all-check:checked + label:after {
+	color:#fff !important;
+}
+
+/* '내업무 / 요청한업무 / 전체업무' radio before */
+.schd-radio:checked + label:before,
+.schd-radio:not(:checked) + label:before {
+    top: 0px;
+}
+
+/* '내 업무 / 요청한 업무 / 전체 업무' radio after:mark */
+.schd-radio:checked + label:after,
+.schd-radio:not(:checked) + label:after {
+    top: 4px;
+}
+
+/* '내 업무' radio after:mark */
+.schd-my-radio:checked + label:after,
+.schd-my-radio:not(:checked) + label:after {
+	background: #746fcc;
+}
+
+/* '요청한 업무' radio after:mark */
+.schd-re-radio:checked + label:after,
+.schd-re-radio:not(:checked) + label:after {
+	background: #26de81;
+}
+
+/* '전체 업무' radio after:mark */
+.schd-all-radio:checked + label:after,
+.schd-all-radio:not(:checked) + label:after {
+	background: #45aaf2;
+}
+
+
+
+/*******************************************
+*
+* Note : file box (파일함)
+*
+*******************************************/
+.coll-file-top {display:block;float:left;width:100%}
+
+/* title */
+.coll-file-top strong {float:left}
+
+/* search */
+.coll-file-top .file-search-box {position:relative;float:right;width:300px}
+.coll-file-top .file-search-box i {position:absolute;left:10px;top:10px}
+.coll-file-top .file-search-box input {width:100%;padding:5px 10px 5px 36px;border:1px solid #ddd}
+
+.files-con-wrap table tbody td.files-name-td {position:relative;padding-left:36px;text-align:left}
+.files-con-wrap table tbody td.files-name-td i.file-icon-s {position:absolute;left:0;top:12px}
+.files-con-wrap table tbody td a.coll-file-down-btn {height:20px;font-size:17px;line-height:1}
+.files-con-wrap table tbody td a.coll-file-down-btn:hover {color:#333}
+
+
+
+/*******************************************
+*
+* Note : collection article(담아둔 글)
+*
+*******************************************/
+.timeline-coll-head {display:block;float:left;width:100%;height:60px;padding:0 20px;line-height:60px;border-bottom:1px solid #ccc}
+.timeline-coll-head a.coll-head-link {float:right;color:#999}
+.timeline-coll-head a.coll-head-link:hover {color:#666}
+
+
+
+
+

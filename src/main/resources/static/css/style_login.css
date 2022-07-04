@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css); /* noto-sans(본고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); /* Nanum Gothic(나눔고딕) */
+@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css); /* Nanum Myeongjo(나눔명조) */
+
+.body-wrap-basic.login-wrap {position:relative;width:500px;margin:60px auto}
+
+.login-wrap .login-logo {cursor:pointer} 
+
+/* login nav */
+.login-wrap ul.login-nav {position:absolute;left:50%;width:56px;margin-left:230px;z-index:1}
+.login-wrap ul.login-nav li {
+	position:relative;
+	width:100%; height:100px;
+	padding:17px 10px 10px 30px;
+	font-size:14px;
+	color:#fff;
+	line-height:16px;
+	border-radius:0 10px 10px 0;
+	cursor:pointer;
+}
+.login-wrap ul.login-nav li:nth-child(2) {padding-top:25px}
+.login-wrap ul.login-nav li:hover {opacity:.7}
+
+/* login box */
+.login-box {position:relative;width:100%;padding:50px 60px;background-color:#fff;z-index:99}
+
+/* photo box */
+.photo-box {position:relative;width:150px;margin:0 auto}
+.photo-box .img-box {position:relative;overflow:hidden;width:150px;height:150px}
+.photo-box .img-box i.icon-circle {position:absolute;overflow:hidden;top:0;left:0;width:150px;height:150px;background:url('/image/design_basic.png') no-repeat;background-position:0 -50px;z-index:999}
+.photo-box .img-box img {max-width:150px}
+
+.photo-box .file-btn-box {position:absolute;top:120px;right:10px;transition:all .3s;z-index:9999}
+.photo-box .file-btn-box:hover {transition:all .3s cubic-bezier(.175, .885, .32, 1.275)}
+.photo-box .file-btn-box .upload-btn {font-size:20px;color:#666;cursor:pointer}
+.photo-box .file-btn-box .upload-btn:hover {color:#999;transition:all .3s}
+.photo-box .file-btn-box .photo-upload {display:none}
+
+/* input box - button */
+.login-box input {width:100%;height:60px;font-size:16px;color:#fff;line-height:60px;border:0}
+.login-box .input-box {position:relative;width:100%}
+.login-box .input-box > input[type="text"],
+.login-box .input-box > input[type="password"] {height:45px;padding:0 10px 5px 10px;color:#333;border-bottom:1px solid #ddd}
+
+/* login button */
+.login-box .login-btn {position:relative;display:block;width:100%;height:60px;font-size:16px;color:#fff;line-height:60px;text-align:center}
+
+.login-box .login-btn.login-kakao {color:#333;background-color:#ffe600}
+.login-box .login-btn.login-google {color:#333;background-color:#fff;border:1px solid #ccc}
+
+.login-box .login-btn > i.login-icon {position:absolute;overflow:hidden;background:url('/image/design_basic.png') no-repeat;text-indent:-5000px}
+.login-box .login-btn.login-kakao > i.icon-talk {top:19px;left:20px;width:23px;height:22px;background-position:0 0}
+.login-box .login-btn.login-google > i.icon-google {top:17px;left:19px;width:25px;height:25px;background-position:-100px 0}
+
+/* check button */
+.login-box .input-box > .check-btn {position:absolute;top:13px;right:10px;font-size:16px}
+
+/* find password btn */
+.login-box .find-pw-btn {display:block;width:100%;height:60px;font-size:16px;color:#fff;line-height:60px;text-align:center}
+
+/* login footer */
+.login-box .dn-copy {font-family:'Malgun Gothic';font-style:italic;font-size:12px;color:#999;text-align:center}
+
+/* login alert box */
+.alert-box {display:none;width:100%;margin:5px 0;font-size:14px}

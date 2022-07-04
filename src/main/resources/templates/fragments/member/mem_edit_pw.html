@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="dim-layer" th:fragment="mem_edit_pw">
+    <div class="dimBg"></div>
+
+    <div id="memPwEditPop" class="pop-layer">
+        <form action="/mem/memPwUpdate" method="post" id="pwFrm">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                비밀번호 변경하기
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <p>
+                    안전한 비밀번호로 내정보를 보호하세요.<br>
+                    <span class="dis-block color-red">다른 아이디/사이트에서 사용한 적 없는 비밀번호</span>
+                    <span class="color-red">이전에 사용한 적 없는 비밀번호</span>가 안전합니다.
+                </p>
+
+                <input type="password" placeholder="현재 비밀번호" class="mem-pw-edit-input" name="pw" id="pw">
+                <input type="password" placeholder="새 비밀번호" class="martop-10 mem-pw-edit-input" name="newPw" id="newPw">
+                <input type="password" placeholder="새 비밀번호 확인" class="martop-10 mem-pw-edit-input" name="newPwChk" id="newPwChk">
+
+            </section>
+
+            <script type="text/javascript">
+            function changePw() {
+                var pw = $("#pw").val();
+                var newPw = $("#newPw").val();
+                var newPwChk = $("#newPwChk").val();
+
+                if(!pwReg.test($("#newPw").val())){
+                    alert("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+                    return false;
+                }else if(pw != '' && newPw != '' && newPwChk != ''){
+                    $.ajax({
+                             url: "/mem/memPwChk",
+                             data: {pw:pw, newPw:newPw, newPwChk:newPwChk},
+                             dataType: 'json',
+                             type: 'POST',
+                             success: function (data) {
+                                if(data.upd != null && data.upd == 1){
+                                    $("#pwFrm").submit();
+                                }else {
+                                    alertCustom(data.result, "alert-warning");
+                                }
+                             },
+                             error: function (data) {
+                                   alert("error");
+                             }
+                         });
+                }else {
+                    alertCustom("비밀번호를 확인해 주세요.", "alert-warning");
+                    return false;
+                }
+            }
+            </script>
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" value="취소" class="pop-btn default-btn btn-close">
+                <input type="button" value="변경하기" class="pop-btn submit-btn marleft-5 back-color-pupple-l" id="submitBtnPw" onclick="changePw()">
+            </footer>
+        </form>
+    </div>
+
+</div>
+</html>

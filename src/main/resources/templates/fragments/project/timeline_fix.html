@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="panel panel-default" th:fragment="timeline_fix">
+
+    <!-- accordion title : s -->
+    <div class="article-fix-top" role="tab" th:id="'fixedTop_'+${timeLineStat.index }">
+        <a th:href="'#fixedCon_'+${timeLineStat.index}" class="collasped size-18 color-black"
+           data-toggle="collapse" data-parent="#accordion" aria-expanded="false" th:aria-controls="'fixedCon_'+${timeLineStat.index}"
+           onchange="fn_fixedIconChange(this)">
+                <i class="fas fa-map-pin maright-15 default-color"></i>
+                <th:block th:if="${timeLine.basic != null }" th:with="articleKind='일반', articleTitle=${timeLine.basic.basic_cont }">
+                    <input type="hidden" class="col-no" data-col="basic_no" th:data-no="${timeLine.basic.basic_no }">
+                    <span class="font-bold default-color" >[[${articleKind }]]</span> [[${articleTitle}]]
+                </th:block>
+                <th:block th:if="${timeLine.task != null }" th:with="articleKind='업무', articleTitle=${timeLine.task.task_title }">
+                    <input type="hidden" class="col-no" data-col="task_no" th:data-no="${timeLine.task.task_no }">
+                    <span class="font-bold default-color" >[[${articleKind }]]</span> [[${articleTitle}]]
+                </th:block>
+                <th:block th:if="${timeLine.todo != null }" th:with="articleKind='할일', articleTitle=${timeLine.todo.todoItemList[0].ti_cont }">
+                    <input type="hidden" class="col-no" data-col="todo_no" th:data-no="${timeLine.todo.todo_no }">
+                    <span class="font-bold default-color" >[[${articleKind }]]</span> [[${articleTitle}]]
+                </th:block>
+                <th:block th:if="${timeLine.vote != null }" th:with="articleKind='투표', articleTitle=${timeLine.vote.vote_title }">
+                    <input type="hidden" class="col-no" data-col="vote_no" th:data-no="${timeLine.vote.vote_no }">
+                    <span class="font-bold default-color" >[[${articleKind }]]</span> [[${articleTitle}]]
+                </th:block>
+                <th:block th:if="${timeLine.schedule != null }" th:with="articleKind='일정', articleTitle=${timeLine.schedule.schd_title }">
+                    <input type="hidden" class="col-no" data-col="schd_no" th:data-no="${timeLine.schedule.schd_no }">
+                    <span class="font-bold default-color" >[[${articleKind }]]</span> [[${articleTitle}]]
+                </th:block>
+                <i class="fas fa-angle-left size-24 color-gray icon-arrow"></i>
+        </a>
+    </div>
+    <!-- accordion title : f -->
+
+    <!-- accordion content : s -->
+    <div th:id="'fixedCon_'+${timeLineStat.index}" class="panel-collapse collapse" role="tabpanel" th:aria-labelledby="'fixedTop_'+${timeLineStat.index}">
+
+        <!-- timeline header:s -->
+        <div class="timeline-header back-color-white">
+            <!-- article writer info -->
+            <div class="article-writer-info">
+                <dl>
+                    <dt class="posi-re maright-15 cursor-point" onclick="fn_openPopup(this)"
+                        th:data-id="${timeLine.member.mem_id }" th:data-nick="${timeLine.member.mem_nick }" th:data-my="${#authentication.getPrincipal().getMember().mem_id }">
+                        <i class="flow-icon icon-circle circle-s"></i>
+                        <img th:src="@{/mem/pic?mem_id=} + ${timeLine.member.mem_id}" onerror="this.src=('/image/user-pic-sample.png')" height="40">
+                    </dt>
+                    <dd>
+                        <strong class="dis-block size-18 color-black" th:text="${timeLine.member.mem_nick}">timeLine.member.mem_nick</strong>
+                        <span class="dis-block size-14 color-gray-l" th:text="${#temporals.format(timeLine.time, 'yyyy-MM-dd HH:mm')}"></span>
+                    </dd>
+                </dl>
+            </div>
+
+            <!-- article icon : s -->
+            <ul class="article-top-icon">
+
+<!--                <c:if test="${proVo.mem_id == memVo.mem_id }">-->
+                    <!-- article pick button -->
+                    <li th:if="${project.getMember().mem_no == #authentication.getPrincipal().getMember().mem_no}">
+                        <a href="#fixCheck" class="pick-check-btn fixed">
+<!--                            <c:choose>-->
+<!--                                <c:when test="${timeLine.fix_chk == 'y' }">-->
+<!--                                    <i class="fas fa-map-pin size-24 cursor-point pick-active"></i>-->
+<!--                                </c:when>-->
+<!--                                <c:otherwise>-->
+                                    <i class="fas fa-map-pin size-24 cursor-point " th:attrappend="class=${timeLine.fix_chk.equals('y')  ? 'pick-active' : ''}"></i>
+<!--                                </c:otherwise>-->
+<!--                            </c:choose>-->
+                        </a>
+                    </li>
+<!--                </c:if>-->
+            </ul>
+            <!-- article icon : f -->
+
+        </div>
+        <!-- timeline header:f -->
+
+        <!-- timeline content:s -->
+        <div class="timeline-content">
+            <th:block th:if="${timeLine.basic != null}">
+                <th:block th:replace="fragments/project/timeline_article :: timeline_article"></th:block>
+            </th:block>
+            <th:block th:if="${timeLine.task != null}">
+                <th:block th:replace="fragments/project/timeline_task :: timeline_task"></th:block>
+            </th:block>
+            <th:block th:if="${timeLine.todo != null}">
+                <th:block th:replace="fragments/project/timeline_todo :: timeline_todo"></th:block>
+            </th:block>
+            <th:block th:if="${timeLine.vote != null}">
+                <th:block th:replace="fragments/project/timeline_vote :: timeline_vote"></th:block>
+            </th:block>
+            <th:block th:if="${timeLine.schedule != null}">
+                <th:block th:replace="fragments/project/timeline_schedule :: timeline_schedule"></th:block>
+            </th:block>
+        </div>
+        <!-- timeline content:f -->
+
+    </div>
+    <!-- accordion content : f -->
+</div>
+</html>

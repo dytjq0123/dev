@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<form action="/basic/insert" method="post" enctype="multipart/form-data" th:fragment="tab_write_article">
+    <input type="hidden" name="mem_id" th:value="${#authentication.getPrincipal().getMember().mem_id }">
+    <input type="hidden" name="pro_no" th:value="${project.pro_no }">
+    <div class="tab-con-box">
+    <textarea rows="5" cols="50" placeholder="글을 작성하세요." name="basic_cont"
+              onkeyup="autoTextarea(this, 120, 500)" required="required"></textarea>
+
+        <!-- 이미지 목록이 나올부분 -->
+        <div class="upload-img-list">
+        </div>
+
+        <!-- 첨부파일 목록이 나올부분 -->
+        <div class="upload-file-list">
+        </div>
+    </div>
+    <div class="tab-dn-box">
+        <!-- 파일첨부 -->
+        <label for="articleFile" class="float-left maright-20 marbtm-0 font-thin size-18">
+            <i class="fas fa-paperclip maright-10"></i>파일첨부
+        </label>
+        <input type="file" id="articleFile" name="articleFile" class="dis-none" onchange="fileUpload(this)">
+
+        <!-- 이미지첨부 -->
+        <label for="article-img" class="float-left marbtm-0 font-thin size-18">
+            <i class="fas fa-camera maright-10"></i>이미지첨부
+        </label>
+        <input type="file" id="article-img" name="imageFile" class="dis-none" onchange="imgUpload(this)" accept="image/*">
+
+        <!-- 올리기(submit) 버튼 -->
+        <input type="submit" value="올리기" class="article-submit-btn float-right font-bold size-18 color-white text-center default-back-color">
+    </div>
+</form>
+</html>

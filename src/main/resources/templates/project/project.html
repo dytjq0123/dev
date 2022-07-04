@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content project-detail">
+
+                <input type="hidden" id="pro_no" name="pro_no" th:value="${project.pro_no}">
+
+                <div class="project-wrap">
+                    <!-- project left content:s -->
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 padleft-0">
+
+                        <!-- project title(프로젝트 제목):s -->
+                        <div id="proTitle" class="pro-detail-box project-title " th:attrappend="class=${not #strings.isEmpty(project.pro_color)  ? project.pro_color : 'default-back-color'}">
+                            <div class="pro-tit">
+                                <i class="fas fa-star size-20 " th:data-prono="${project.pro_no }" th:attrappend="class=${member.important != null and #lists.contains(member.important.projectList, project)  ? 'color-yellow maright-15 cursor-point' : 'color-gray-l maright-15 cursor-point'}"></i>
+                                <span class="size-20 color-white" th:text="${project.pro_name}">project.pro_name</span>
+                            </div>
+                            <ul class="pro-edit-nav">
+                                <li th:if="${project.member.mem_no == #authentication.getPrincipal().getMember().mem_no}">
+                                    <i class="fas fa-palette size-30 color-white cursor-point edit-color-btn" onclick="fn_editColor(this)"></i>
+                                    <div class="edit-box edit-color-box">
+                                        <div class="color-sample default-back-color"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-red"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-pink"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-orange"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-yellow-d"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-green"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-green-l"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-blue-l"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-blue-d"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-pupple"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-pupple-l"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-gray"><i class="fas fa-check-circle size-16"></i></div>
+                                        <div class="color-sample back-color-black"><i class="fas fa-check-circle size-16"></i></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button id="projectEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v size-30 color-white"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="projectEdit">
+                                        <li class="drop-tit">프로젝트 설정</li>
+                                        <li class="cursor-point" onclick="boxProEdit()">보관함 설정</li>
+                                        <li class="cursor-point" onclick="deleteProUser()">프로젝트 나가기</li>
+                                        <li class="cursor-point" onclick="proUpdate()">프로젝트 수정</li>
+                                        <li class="cursor-point color-red" th:if="${project.getMember().mem_no == #authentication.getPrincipal().getMember().mem_no}" onclick="deletePro()">프로젝트 삭제</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- project title(프로젝트 제목):f -->
+
+                        <!-- project task report(업무리포트):s -->
+                        <div class="pro-detail-box pro-task-report martop-20" style="display:none">
+                            <h3 class="size-16 marbtm-20"><i class="fas fa-chart-pie maright-10 size-20 color-green-l"></i> 업무리포트(전체 <span></span>건)</h3>
+                            <div th:replace="fragments/project/task_report :: task_report"></div>
+                        </div>
+                        <!-- project task report(업무리포트):f -->
+
+                        <!-- '할 일' 모아보기 제목(클릭 이벤트는 'project_right.html'에 있음) -->
+                        <div class="coll-todo-tit float-left martop-20 font-bold size-20 color-black" style="display:none">
+                            할 일 모아보기 <span class="color-blue-l cursor-point" onclick="fn_collCancel()">취소</span>
+                        </div>
+
+                        <!-- '투표' 모아보기 제목(클릭 이벤트는 'project_right.html'에 있음) -->
+                        <div class="coll-vote-tit float-left martop-20 font-bold size-20 color-black" style="display:none">
+                            투표 모아보기 <span class="color-blue-l cursor-point" onclick="fn_collCancel()">취소</span>
+                        </div>
+
+                        <!-- project write tab(프로젝트 타임라인 글쓰기 탭박스):s -->
+                        <div class="pro-detail-box pro-tab-box martop-20">
+                            <div class="tabs-box">
+                                <ul class="tabs">
+                                    <li data-id="tab-1" class="active"><i class="fas fa-edit maright-10"></i>글쓰기</li>
+                                    <li data-id="tab-2"><i class="fas fa-laptop maright-10"></i>업무</li>
+                                    <li data-id="tab-3"><i class="far fa-calendar-alt maright-10"></i>일정</li>
+                                    <li data-id="tab-4"><i class="fas fa-list maright-10"></i>할일</li>
+                                    <li data-id="tab-5"><i class="fas fa-check maright-10"></i>투표</li>
+                                </ul>
+                                <div class="tabs-container">
+                                    <!-- 글쓰기:s -->
+                                    <div id="tab-1" class="tabs-content active">
+                                        <form th:replace="fragments/project/tab_write_article :: tab_write_article"></form>
+                                    </div>
+                                    <!-- 글쓰기:f -->
+
+                                    <!-- 업무:s -->
+                                    <div id="tab-2" class="tabs-content con-task">
+                                        <form th:replace="fragments/project/tab_write_task :: tab_write_task"></form>
+                                    </div>
+                                    <!-- 업무:f -->
+
+                                    <!-- 일정:s -->
+                                    <div id="tab-3" class="tabs-content con-schedule">
+                                        <form th:replace="fragments/project/tab_write_schedule :: tab_write_schedule"></form>
+                                    </div>
+                                    <!-- 일정:f -->
+
+                                    <!-- 할일:s -->
+                                    <div id="tab-4" class="tabs-content con-todo">
+                                        <form th:replace="fragments/project/tab_write_todo :: tab_write_todo"></form>
+                                    </div>
+                                    <!-- 할일:f -->
+
+                                    <!-- 투표:s -->
+                                    <div id="tab-5" class="tabs-content con-vote">
+                                        <form th:replace="fragments/project/tab_write_vote :: tab_write_vote"></form>
+                                    </div>
+                                    <!-- 투표:f -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- project write tab(프로젝트 타임라인 글쓰기 탭박스):f -->
+
+                        <!-- top pick article(상단고정글):s -->
+                        <div class="top-fixed-article martop-20" style="display:none">
+                            <h5 class="marbtm-10 top-fixed-tit">상단고정글</h5>
+
+                            <div class="fix-article-box panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <th:block th:if="${#strings.equals(timeLine.fix_chk, 'y')}" th:each="timeLine, timeLineStat : ${timeLineList}">
+                                    <div th:replace="fragments/project/timeline_fix :: timeline_fix"></div>
+                                </th:block>
+                            </div>
+
+                        </div>
+                        <!-- top pick article(상단고정글):f -->
+
+
+                        <!-- project timeline:s -->
+                        <th:block th:each="timeLine : ${timeLineList}">
+
+
+                            <div class="timeline-box martop-20">
+                                <input type="hidden" class="member" th:data-mem_id="${#authentication.getPrincipal().getMember().mem_id}" th:data-mem_nick="${#authentication.getPrincipal().getMember().mem_nick}">
+                                <input type="hidden" th:if="${timeLine.basic != null }" class="col-no" data-col="basic_no" th:data-no="${timeLine.basic.basic_no }">
+                                <input type="hidden" th:if="${timeLine.task != null }" class="col-no"  data-col="task_no" th:data-no="${timeLine.task.task_no }">
+                                <input type="hidden" th:if="${timeLine.todo != null }" class="col-no" data-col="todo_no" th:data-no="${timeLine.todo.todo_no }">
+                                <input type="hidden" th:if="${timeLine.vote != null }" class="col-no" data-col="vote_no" th:data-no="${timeLine.vote.vote_no }">
+                                <input type="hidden" th:if="${timeLine.schedule != null }" class="col-no" data-col="schd_no" th:data-no="${timeLine.schedule.schd_no }">
+
+                                <!-- timeline header:s -->
+                                <div class="timeline-header back-color-white">
+                                    <!-- article writer info -->
+                                    <div class="article-writer-info">
+                                        <dl>
+                                            <dt class="posi-re maright-15 cursor-point" onclick="fn_openPopup(this)"
+                                                th:data-id="${timeLine.getMember().mem_id }" th:data-nick="${timeLine.getMember().mem_nick }" th:data-my="${#authentication.getPrincipal().getMember().mem_id }">
+                                                <i class="flow-icon icon-circle circle-s"></i>
+                                                <img th:src="@{/mem/pic?mem_id=} + ${timeLine.getMember().mem_id}" onerror="this.src='/image/user-pic-sample.png'" height="40">
+                                            </dt>
+                                            <dd>
+                                                <strong class="dis-block size-18 color-black" th:text="${timeLine.getMember().mem_nick}">timeLine.getMember().mem_nick</strong>
+                                                <span class="dis-block size-14 color-gray-l" th:text="${#temporals.format(timeLine.time, 'yyyy-MM-dd HH:mm')}"></span>
+
+                                            </dd>
+                                        </dl>
+                                    </div>
+
+                                    <!-- article icon : s -->
+                                    <ul class="article-top-icon">
+
+                                            <!-- article pick button -->
+                                            <li th:if="${project.getMember().mem_no == #authentication.getPrincipal().getMember().mem_no}">
+                                                <a href="#fixCheck" class="pick-check-btn">
+                                                    <i class="fas fa-map-pin size-24 cursor-point " th:attrappend="class=${timeLine.fix_chk.equals('y') ? 'pick-active' : ''}"></i>
+                                                </a>
+                                            </li>
+
+                                        <!-- article edit : s -->
+                                            <li class="posi-re float-left" th:if="${timeLine.getMember().mem_no == #authentication.getPrincipal().getMember().mem_no}">
+                                                <button id="articleEdit" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v size-24 color-gray"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="articleEdit">
+                                                    <li class="cursor-point" onclick="fn_editArticle(this)">글 수정</li>
+                                                    <li class="cursor-point timeline-delete-btn">글 삭제</li>
+                                                </ul>
+                                            </li>
+<!--                                        </c:if>-->
+                                        <!-- article edit : f -->
+                                    </ul>
+                                    <!-- article icon : f -->
+
+                                </div>
+                                <!-- timeline header:f -->
+
+                                <!-- timeline content:s -->
+                                <div class="timeline-content">
+                                    <!-- if문  -->
+                                    <th:block th:if="${timeLine.basic != null}">
+                                        <th:block th:replace="fragments/project/timeline_article :: timeline_article"></th:block>
+                                    </th:block>
+                                    <th:block th:if="${timeLine.task != null}">
+                                        <th:block th:replace="fragments/project/timeline_task :: timeline_task"></th:block>
+                                    </th:block>
+                                    <th:block th:if="${timeLine.todo != null}">
+                                        <th:block th:replace="fragments/project/timeline_todo :: timeline_todo"></th:block>
+                                    </th:block>
+                                    <th:block th:if="${timeLine.vote != null}">
+                                        <th:block th:replace="fragments/project/timeline_vote :: timeline_vote"></th:block>
+                                    </th:block>
+                                    <th:block th:if="${timeLine.schedule != null}">
+                                        <th:block th:replace="fragments/project/timeline_schedule :: timeline_schedule"></th:block>
+                                    </th:block>
+                                </div>
+
+                                <!-- timeline content:f -->
+
+                                <!-- timeline footer:s -->
+                                <div class="timeline-footer">
+
+                                    <!-- 좋아요 / 댓글 개수:s -->
+                                    <div class="article-etc-info">
+
+                                        <!-- 좋아요 선택 시 이모티콘 나올 부분 -->
+                                        <div class="like-result cursor-point" th:onclick="'fn_emoUserPop(' + ${timeLineStat?.index} + ')'">
+                                            <th:block th:if="${emoStat?.index lt 2}" th:each="emo : ${timeLine.emoticonList}">
+                                                <img th:src="@{/emo/view?emo_no=} + ${emo.emo_no}" data-no=""  width="20" class="maright-10"
+                                                     th:attrappend="data-no=${timeLine.emo_user_chk  ? member.mem_no : ''}">
+                                            </th:block>
+                                            <div class="like-mem dis-inblock" th:data-size="${#lists.size(timeLine.emoticonList)}">
+                                                <strong class="me" th:if="${timeLine.emo_user_chk == true and #lists.size(timeLine.emoticonList) == 1}" th:text="${member.mem_nick} + '님'"></strong>
+                                                <strong class="me" th:if="${timeLine.emo_user_chk == true and #lists.size(timeLine.emoticonList) gt 1}" th:text="${member.mem_nick} + '님 외 ' + ${#lists.size(timeLine.emoticonList) -1} + '명'"></strong>
+                                                <strong class="me" th:if="${timeLine.emo_user_chk == false and #lists.size(timeLine.emoticonList) gt 0}" th:text="${#lists.size(timeLine.emoticonList)} + '명'"></strong>
+                                            </div>
+                                        </div>
+
+                                        <!-- 이모티콘 사용자 리스트 팝업:s -->
+                                        <div class="dim-layer">
+                                            <div class="dimBg"></div>
+
+                                            <div th:id="'emoUser_' + ${timeLineStat?.index }" class="pop-layer">
+                                                <!-- pop header -->
+                                                <header class="pop-top border-box">
+                                                    리액션 확인
+                                                    <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+                                                </header>
+
+                                                <!-- pop con -->
+                                                <section class="pop-con border-box">
+                                                    <!-- 좋아요 개수 : s -->
+                                                    <ul class="like-count-info">
+                                                        <li>총 <span th:text="${#lists.size(timeLine.emoticonList)}">timeLine.emoticonList</span></li>
+                                                    </ul>
+                                                    <!-- 좋아요 개수 : f -->
+
+                                                    <!-- 좋아요 리스트 : s -->
+                                                    <div class="like-count-list" data-simplebar>
+                                                        <dl th:data-id="${emo.memberList[0].mem_id }" th:each="emo : ${timeLine.emoticonList}">
+                                                            <dt	class="posi-re cursor-point" onclick="fn_openPopup(this)"
+                                                                   th:data-id="${timeLine.member.mem_id }" th:data-nick="${timeLine.member.mem_nick }" th:data-my="${#authentication.getPrincipal().getMember().mem_id}">
+                                                                <i class="icon-circle circle-s"></i>
+                                                                <img th:src="@{/mem/pic?mem_id=} + ${emo.memberList[0].mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                                                            </dt>
+                                                            <dd>
+                                                                <div class="like-user-name" th:text="${emo.memberList[0].mem_nick}">emo.memberList[0].mem_nick</div>
+                                                                <div class="like-user-emoticon"><img th:src="@{/emo/view?emo_no=} + ${emo.emo_no}" width="40"></div>
+                                                            </dd>
+                                                        </dl>
+                                                    </div>
+                                                    <!-- 좋아요 리스트 : f -->
+                                                </section>
+                                            </div>
+                                        </div>
+                                        <!-- 이모티콘 사용자 리스트 팝업:f -->
+
+                                        <!-- 댓글 개수 -->
+                                        <div class="comment-count back-color-gray-l color-white">
+                                            <i class="fas fa-comment maright-10"></i><span th:text="${#lists.size(timeLine.replyList)} + ' 개'"></span> timeLine.replyList 개
+                                        </div>
+
+                                        <!-- 좋아요 / 댓글작성 / 담아두기 버튼 -->
+                                        <ul class="article-etc-menu martop-10 marbtm-0">
+                                            <li class="posi-re cursor-point">
+                                                <th:block th:if="${timeLine.emo_user_chk}">
+                                                <!-- like button : s -->
+                                                <div id="emoticonToggle" class="emoticon-btn cursor-point"
+                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none">
+                                                    <i class="fas fa-thumbs-up maright-10"></i>좋아요
+                                                </div>
+                                                <!-- like button : f -->
+
+                                                <!-- Chagned like button : s -->
+                                                <div class="emoticon-after-btn cursor-point" th:data-emouser="${member.mem_no }" th:data-emo="${timeLine.emo_no}" style="display:block">
+                                                    <img th:src="@{/emo/view?emo_no=} + ${timeLine.emo_no}" width="20" class="maright-10">
+                                                    <span class="size-14 default-color" th:text="${timeLine.emo_name}">emo.emo_name</span>
+                                                </div>
+                                                <!-- Chagned like button : f -->
+                                                </th:block>
+                                                <th:block th:unless="${timeLine.emo_user_chk}">
+                                                    <!-- like button : s -->
+                                                    <div id="emoticonToggle" class="emoticon-btn cursor-point" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-thumbs-up maright-10"></i>좋아요
+                                                    </div>
+                                                    <!-- like button : f -->
+
+                                                    <!-- Chagned like button : s -->
+                                                    <div class="emoticon-after-btn cursor-point" data-emouser="" data-emo="">
+                                                        <img src="" width="20" class="maright-10">
+                                                        <span class="size-14 default-color"></span>
+                                                    </div>
+                                                    <!-- Chagned like button : f -->
+                                                </th:block>
+
+
+                                                <!-- Emoticon list box -->
+                                                <div class="dropdown-menu emoticon-box" aria-labelledby="emoticonToggle">
+                                                    <ul>
+                                                        <th:block th:each="emo : ${emoticonList}">
+                                                            <li class="posi-re" th:data-emono="${emo.emo_no }">
+                                                                <img th:src="@{/emo/view?emo_no=} + ${emo.emo_no}">
+                                                                <span th:text="${emo.emo_name}">${emo.emo_name }</span>
+                                                            </li>
+                                                        </th:block>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="cursor-point" onclick="fn_commentFocus(this)"><i class="fas fa-comment-alt maright-10"></i> 댓글작성</li>
+                                            <li class="cursor-point coll-btn " th:data-collno="${timeLine.coll_chk }" th:attrappend="class=${timeLine.coll_chk != 0 ? 'default-color' : ''}">
+                                                <i class="fas fa-bookmark maright-10"></i>
+                                                <span th:if="${timeLine.coll_chk != 0}" th:text="'담아두기 취소'">담아두기 취소</span>
+                                                <span th:unless="${timeLine.coll_chk != 0}" th:text="'담아두기'">담아두기</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- 좋아요 / 댓글 개수:f -->
+
+                                    <!-- 댓글:s -->
+                                    <div class="timeline-comment-wrap">
+                                        <th:block th:if="${#strings.equals(reply.rep_del_chk, 'n')}" th:each="reply : ${timeLine.replyList}">
+                                            <!-- 댓글 리스트:s -->
+                                            <div class="comment-list-box" th:data-repno="${reply.rep_no }">
+                                                <dl>
+                                                    <dt class="posi-re cursor-point" onclick="fn_openPopup(this)"
+                                                        th:data-id="${timeLine.member.mem_id }" th:data-nick="${timeLine.member.mem_nick }" th:data-my="${#authentication.getPrincipal().getMember().mem_id }">
+                                                        <i class="flow-icon icon-circle circle-s-re"></i>
+                                                        <img th:src="@{/mem/pic?mem_id=} + ${reply.member.mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                                                    </dt>
+                                                    <dd class="posi-re">
+
+                                                        <!-- 댓글 작성자 정보 -->
+                                                        <div class="comment-user-info">
+                                                            <div class="dis-inblock font-bold size-15 color-black maright-10" th:text="${reply.member.mem_nick}">reply.member.mem_nick</div>
+                                                            <div class="dis-inblock size-15 color-gray maright-20" th:text="${#temporals.format(reply.createDate, 'yyyy-MM-dd HH:mm:ss')}">
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- 댓글내용 -->
+                                                        <div class="article-txt martop-5">
+                                                            <pre class="font-thin size-16 color-gray" th:text="${reply.rep_cont}">reply.rep_cont</pre>
+                                                        </div>
+
+                                                        <!-- 댓글 이미지 목록 : s -->
+                                                        <div class="comment-img-list">
+                                                            <th:block th:each="files : ${reply.filesList}">
+                                                                    <div class="upload-img-info martop-20" th:if="${#strings.equals(files.files_kind, 'img')}">
+                                                                        <div class="upload-img" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} + ');'"></div>
+                                                                    </div>
+                                                            </th:block>
+                                                        </div>
+                                                        <!-- 댓글 이미지 목록 : f -->
+
+                                                        <!-- 댓글 첨부파일 목록 : s -->
+                                                        <div class="comment-file-list">
+                                                            <th:block th:each="files : ${reply.filesList}">
+                                                                    <div class="upload-file-info martop-10" th:if="${#strings.equals(files.files_kind, 'file')}">
+                                                                        <dl>
+                                                                            <dt>
+                                                                                <i class="dis-inblock file-icon-s" th:data-name="${files.files_name }"></i>
+                                                                            </dt>
+                                                                            <dd>
+                                                                                <div class="dis-block size-14 color-black" style="height:26px;line-height:26px;" th:text="${files.files_name}">
+                                                                                    files.files_name
+                                                                                    <span class="marleft-10 color-blue-l" th:text="'(' + ${files.files_size} + ')'">(files.files_size)</span>
+                                                                                </div>
+                                                                                <a th:href="@{/files/download?files_no=} + ${files.files_no}" class="comment-file-down">다운로드</a>
+                                                                            </dd>
+                                                                        </dl>
+                                                                    </div>
+                                                            </th:block>
+                                                        </div>
+                                                        <!-- 댓글 첨부파일 목록 : f -->
+
+                                                        <!-- 댓글 수정 박스 -->
+                                                        <div class="comment-edit-box">
+                                                            <form action="/rep/update" method="post" class="comment-edit-form" enctype="multipart/form-data">
+                                                                <input type="hidden" name="rep_no" th:value="${reply.rep_no }">
+                                                                <input type="hidden" name="pro_no" th:value="${project.pro_no}">
+                                                                <div class="comment-textarea">
+														<textarea rows="5" cols="50" class="rep_cont" name="rep_cont"
+                                                                  onkeyup="autoTextarea(this, 40, 300)" onkeydown="fn_keyDownEsc(event, this)" required th:text="${reply.rep_cont}">reply.rep_cont</textarea>
+                                                                </div>
+                                                                <div class="dis-block float-left martop-5 marbtm-10 size-13 color-gray" style="width:100%"><span class="default-color">취소</span> 하실려면 <span class="color-red">Esc</span>키를 누르세요.</div>
+
+                                                                <!-- 파일첨부 -->
+                                                                <label th:for="'commentEditFile_' + ${replyStat?.index }" class="marbtm-0">
+                                                                    <i class="fas fa-paperclip martop-10 size-24 color-gray cursor-point"></i>
+                                                                </label>
+                                                                <input type="file" th:id="'commentEditFile_' + ${replyStat?.index }" class="dis-none" onchange="commentFileUpload(this)">
+
+                                                                <!-- 이미지 목록이 나올부분 -->
+                                                                <div class="comment-upload-img-list">
+                                                                    <th:block th:each="files : ${reply.filesList}">
+                                                                            <div class="upload-img-info martop-20" th:data-no="${files.files_no }" th:if="${#strings.equals(files.files_kind, 'img')}">
+                                                                                <div class="upload-img" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} + ');'"></div>
+                                                                                <i class="fas fa-times-circle img-close-btn" onclick="commentFileDelete(this)"></i>
+                                                                            </div>
+                                                                    </th:block>
+                                                                </div>
+
+                                                                <!-- 첨부파일 목록이 나올부분 -->
+                                                                <div class="comment-upload-file-list">
+                                                                    <th:block th:each="files : ${reply.filesList}">
+                                                                            <div class="upload-file-info martop-10" th:data-no="${files.files_no }" th:if="${#strings.equals(files.files_kind, 'file')}">
+                                                                                <dl>
+                                                                                    <dt>
+                                                                                        <i class="dis-inblock file-icon-s" th:data-name="${files.files_name }"></i>
+                                                                                    </dt>
+                                                                                    <dd>
+                                                                                        <div class="dis-block size-14 color-black" style="height:26px;line-height:26px;" th:text="${files.files_name}">
+                                                                                            files.files_name
+                                                                                            <span class="marleft-10 color-blue-l" th:text="'(' + ${files.files_size} + ')'">(files.files_size)</span>
+                                                                                        </div>
+                                                                                    </dd>
+                                                                                </dl>
+                                                                                <i class="far fa-times-circle file-close-btn" onclick="commentFileDelete(this)"></i>
+                                                                            </div>
+                                                                    </th:block>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+<!--                                                             댓글 수정,삭제 버튼-->
+                                                        <ul class="comment-edit-btn" th:if="${reply.member.mem_no == #authentication.getPrincipal().getMember().mem_no}">
+                                                            <li class="cursor-point" onclick="fn_commentEdit(this)">수정</li>
+                                                            <li class="cursor-point reply-delete">삭제</li>
+                                                        </ul>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                            <!-- 댓글 리스트:f -->
+                                        </th:block>
+                                        <!-- 댓글 입력:s -->
+                                        <form action="/rep/insert" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" class="timeline_col" name="timeline_col" value="">
+                                            <input type="hidden" class="timeline_no" name="timeline_no" value="">
+                                            <input type="hidden" name="pro_no" th:value="${project.pro_no}">
+                                            <div class="comment-insert-box">
+                                                <dl>
+                                                    <dt class="posi-re">
+                                                        <i class="flow-icon icon-circle circle-s-re"></i>
+                                                        <img th:src="@{/mem/pic?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                                                    </dt>
+                                                    <dd>
+                                                        <div class="comment-textarea">
+												<textarea rows="5" cols="50" class="rep_cont" name="rep_cont"
+                                                          placeholder="댓글을 입력하세요.(Enter는 입력, shift + Enter는 줄바꿈)"
+                                                          onkeyup="autoTextarea(this, 36, 300)" onkeydown="fn_commentKeyDown(event, this)" required ></textarea>
+                                                        </div>
+
+                                                        <!-- 파일첨부 -->
+                                                        <label th:for="'commentFile_' + ${replyStat?.index }" class="marbtm-0">
+                                                            <i class="fas fa-paperclip martop-10 size-24 color-gray cursor-point"></i>
+                                                        </label>
+                                                        <input type="file" th:id="'commentFile_' + ${replyStat?.index }" class="dis-none" onchange="commentFileUpload(this)">
+
+                                                        <!-- 이미지 목록이 나올부분 -->
+                                                        <div class="comment-upload-img-list">
+                                                        </div>
+
+                                                        <!-- 첨부파일 목록이 나올부분 -->
+                                                        <div class="comment-upload-file-list">
+                                                        </div>
+
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </form>
+                                        <!-- 댓글 입력:f -->
+                                    </div>
+                                    <!-- 댓글:f -->
+
+                                </div>
+                                <!-- timeline footer:f -->
+
+                            </div>
+<!--                        </c:forEach>-->
+                        </th:block>
+
+                        <!-- project timeline:f -->
+
+                        <form action="/task/rate" class="edit-rate-form">
+                            <input type="hidden" name="task_no" value="">
+                            <input type="hidden" name="task_rate" value="">
+                        </form>
+
+
+                    </div>
+                    <!-- project left content:f -->
+
+                    <!-- project right content:s -->
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 padright-0">
+                        <div th:replace="fragments/project/project_right :: project_right"></div>
+                    </div>
+                    <!-- project right content:f -->
+
+                </div>
+
+                <!-- google map -->
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHe2Zuo-9RXsRMspMgH5jXyMPmunB99fY&libraries=places&callback=initMap" async defer></script>
+                <script src="/js/googleMap.js"></script>
+
+
+            </section>
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+<!-- alert custom -->
+<div class="alert flowolf-alert"></div>
+
+<script src="/js/common.js"></script>
+<script src="/js/project.js"></script>
+
+</body>
+</html>

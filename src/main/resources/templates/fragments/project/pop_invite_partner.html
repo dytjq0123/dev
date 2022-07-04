@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<form action="/pro/invite" method="post" th:fragment="pop_invite_partner">
+    <input type="hidden" id="pro_no" name="pro_no" th:value="${project.pro_no}">
+
+    <!-- top : pop invite partner : s -->
+    <div class="pop-top-sub">
+        <i class="fas fa-arrow-left size-20 cursor-point" onclick="fn_popupBack(this)"></i>
+        동료 초대하기
+        <i class="flow-icon icon-close cursor-point" onclick="fn_popSubClose(this)"></i>
+    </div>
+    <!-- top : pop invite partner : f -->
+
+    <!-- content : pop invite partner : s -->
+    <div class="pop-con-sub">
+
+        <!-- 추가된 동료 리스트가 나올 부분 -->
+        <div class="select-user-list">
+            <span class="user-all-del" onclick="fn_userListDelete(this)">전체 삭제</span>
+        </div>
+
+        <!-- user list:s -->
+        <div class="invite-user-list over-y-scroll">
+            <th:block th:each="partner : ${member.partnerList}">
+<!--            <c:forEach items="${ptnMyList }" var="ptnVo">-->
+                <dl class="pop-user-list" th:data-id="${partner.mem_id }" th:data-no="${project.pro_no }" onclick="fn_inviteUserAdd(this)">
+                    <dt class="maright-10">
+                        <i class="icon-circle circle-s"></i>
+                        <img th:src="@{/mem/pic?mem_id=} + ${partner.ptn_apply.mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                    </dt>
+                    <dd>
+                        <strong class="dis-block size-20 color-black" th:text="${partner.ptn_apply.mem_nick}">partner.ptn_apply.mem_nick</strong>
+                        <span class="dis-block size-14 color-gray-l" th:text="${partner.ptn_apply.mem_id}">partner.ptn_apply.mem_id</span>
+                        <button type="button" class="invite-add-btn">
+                            <i class="fas fa-plus maright-15"></i>
+                            <span>추가</span>
+                        </button>
+                    </dd>
+                </dl>
+<!--            </c:forEach>-->
+            </th:block>
+        </div>
+        <!-- user list:f -->
+
+    </div>
+    <!-- content : pop invite partner : f -->
+
+    <!-- footer : pop invite partner : s -->
+    <div class="pop-footer-sub">
+        <input type="button" class="invate-frm-submit submit-btn color-white default-back-color " value="초대">
+    </div>
+    <!-- footer : pop invite partner : f -->
+
+</form>
+</html>
