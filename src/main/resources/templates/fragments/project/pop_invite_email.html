@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<form action="/pro/sendMail" method="post" th:fragment="pop_invite_email">
+    <input type="hidden" id="pro_no" name="pro_no" th:value="${project?.pro_no}">
+    
+
+    <!-- top : pop invite email : s -->
+    <div class="pop-top-sub">
+        <i class="fas fa-arrow-left size-20 cursor-point" onclick="fn_popupBack(this)"></i>
+        이메일로 초대하기
+        <i class="flow-icon icon-close cursor-point" onclick="fn_popSubClose(this)"></i>
+    </div>
+    <!-- top : pop invite email : f -->
+
+    <!-- content : pop invite email : s -->
+    <div class="pop-con-sub">
+
+        <dl class="invite-email-input">
+            <dt><input type="text" id="emailName" class="border-box" name="toEmail" placeholder="example@flowolf.team"></dt>
+            <dd><span class="color-gray cursor-point" onclick="fn_emailInputDel(this)">삭제</span></dd>
+        </dl>
+        <dl class="invite-email-input martop-10">
+            <dt><input type="text" id="emailName" class="border-box" name="toEmail" placeholder="example@flowolf.team"></dt>
+            <dd><span class="color-gray cursor-point" onclick="fn_emailInputDel(this)">삭제</span></dd>
+        </dl>
+        <dl class="invite-email-input martop-10">
+            <dt><input type="text" id="emailName" class="border-box" name="toEmail" placeholder="example@flowolf.team"></dt>
+            <dd><span class="color-gray cursor-point" onclick="fn_emailInputDel(this)">삭제</span></dd>
+        </dl>
+        <dl class="invite-email-input martop-10">
+            <dt><input type="text" id="emailName" class="border-box" name="toEmail" placeholder="example@flowolf.team"></dt>
+            <dd><span class="color-gray cursor-point" onclick="fn_emailInputDel(this)">삭제</span></dd>
+        </dl>
+        <dl class="invite-email-input martop-10">
+            <dt><input type="text" id="emailName" class="border-box" name="toEmail" placeholder="example@flowolf.team"></dt>
+            <dd><span class="color-gray cursor-point" onclick="fn_emailInputDel(this)">삭제</span></dd>
+        </dl>
+
+        <strong class="dis-block float-left default-color martop-30 marbtm-10 size-18">[아래 내용은 편집하실 수 있습니다.]</strong>
+        <textarea name="email_con" class="float-left" placeholder="메일에 추가할 내용을 입력하세요.">Flowolf로 업무관리, 채팅, 파일공유, 일정 공지를 한 곳에서!
+편리한 협업툴 Flowolf를 사용해보세요.</textarea>
+    </div>
+    <!-- content : pop invite email : f -->
+
+    <!-- footer : pop invite email : s -->
+    <div class="pop-footer-sub">
+        <input type="submit" class="submit-btn color-white default-back-color" value="초대">
+    </div>
+    <!-- footer : pop invite email : f -->
+</form>
+</html>

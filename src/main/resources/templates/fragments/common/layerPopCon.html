@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- 유저 정보 레이어팝업 : s -->
+<div th:fragment="layerPopCon">
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="userInfoPop" class="pop-layer profile-pop">
+        <form name="userChatFom" action="/chat/insert" class="ptn-from">
+
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로필정보
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <!-- profile picture : s -->
+                <div class="profile-pic">
+                </div>
+                <!-- profile picture : f -->
+
+                <!-- profile info : s -->
+                <div class="pop-profile-info">
+
+                    <strong class="pop-user-nick size-24 color-black"></strong>
+
+                    <span class="pop-user-id size-13 color-gray"></span>
+                    <!--<span class="pop-user-phone dis-block martop-5 size-15 color-gray"></span>-->
+                    <span class="pop-my-id dis-none"></span>
+
+                </div>
+                <!-- profile info : f -->
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <!-- 본인 일때 -->
+                <input type="button" class="pop-btn submit-btn back-color-pupple-l btn-close my-chat-btn" style="display:none" value="채팅하기"/>
+                <!-- 본인이 아닐 때 -->
+                <input type="button" class="pop-btn submit-btn back-color-pupple-l btn-close chat-btn" style="display:none" value="채팅하기"/>
+
+                <input type="button" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close apply-btn" value="친구신청"/>
+                <a href="/mem/memEdit" class="pop-btn marleft-5 default-btn prof-edit-btn" style="display:none">프로필 수정</a>
+            </footer>
+
+            <input type="hidden" name="mem_id" id="user_mem_id">
+            <input type="hidden" name="chat_title" id="user_chat_title">
+            <input type="hidden" name="ptn_id" id="user_ptn_id">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+	</script>
+</div>
+<!-- 유저 정보 레이어팝업 : f -->
+
+<!-- 보관함 추가 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="addFolder" class="pop-layer">
+        <form action="/box/insert" method="get" class="boxInsert-form">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                보관함 만들기
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <input type="text" id="folderName" name="box_name" class="pop-input" placeholder="보관함명 입력(최대 50자)" required="required">
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="만들기">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 보관함 추가 레이어 팝업:f -->
+
+<!-- 보관함 수정 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="editFolder" class="pop-layer">
+        <form action="/box/update" method="get">
+            <input type="hidden" id="box_no" name="box_no" value="">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                보관함 수정하기
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <input type="text" name="box_name" id="box_name" class="pop-input" placeholder="보관함명">
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="변경하기">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 보관함 수정 레이어 팝업:f -->
+
+<!-- 보관함 삭제 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="deleteFolder" class="pop-layer">
+        <form action="/box/delete" method="get">
+            <input type="hidden" id="box_no" name="box_no" value="">
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <p class="marbtm-0 padtop-20 size-20 color-gray text-center">
+                    보관함을 삭제하시겠습니까?<br>
+                    보관함에 포함된 프로젝트는 삭제되지 않습니다.
+                </p>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="삭제하기">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 보관함 삭제 레이어 팝업:f -->
+
+<!-- 프로젝트 추가 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="addProject" class="pop-layer pop-add-project">
+        <form action="/pro/insert" method="post">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로젝트 만들기
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <!-- 프로젝트 명 -->
+                <div class="dis-block">
+                    <h3>프로젝트명</h3>
+                    <input type="text" name="pro_name" class="pop-input input-line" placeholder="프로젝트명 입력(최대 50자)" required="required">
+                </div>
+
+                <!-- 프로젝트 분류 -->
+                <div class="dis-block martop-20">
+                    <h3>프로젝트 분류</h3>
+                    <div class="pro-kind-box">
+                        <!-- 분류 종류 List -->
+<!--                        <c:forEach items="${kindList }" var="kindVo">-->
+                            <label class="maright-15" th:each="kind : ${session.kindList}">
+                                <input type="radio" name="kind_no" th:value="${kind?.kind_no }" th:text="${kind?.kind_name}">
+                            </label>
+<!--                        </c:forEach>-->
+                    </div>
+                </div>
+
+                <!-- 프로젝트 개요 -->
+                <div class="dis-block martop-20">
+                    <h3>프로젝트 개요</h3>
+                    <textarea name="pro_cont" rows="" cols="" placeholder="프로젝트 목표 및 개요 입력"></textarea>
+                </div>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="만들기">
+            </footer>
+        </form>
+    </div>
+
+</div>
+<!-- 프로젝트 추가 레이어 팝업:f -->
+
+<!-- 프로젝트 수정 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="editProject" class="pop-layer pop-add-project">
+        <form class="editPro-form" action="/pro/update" method="get">
+            <input type="hidden" id="pro_no" name="pro_no" th:value="${project?.pro_no }">
+
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로젝트 수정하기
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <!-- 프로젝트 명 -->
+                <div class="dis-block">
+                    <h3>프로젝트명</h3>
+                    <input type="text" id="pro_name" name="pro_name" class="pop-input input-line" th:value="${project?.pro_name }" placeholder="프로젝트명 입력(최대 50자)" required="required">
+                </div>
+
+                <!-- 프로젝트 분류 -->
+                <div class="dis-block martop-20">
+                    <h3>프로젝트 분류</h3>
+                    <div class="pro-kind-box">
+                        <!-- 분류 종료 List -->
+<!--                        <c:forEach items="${kindList }" var="kindVo">-->
+<!--                            <c:choose>-->
+<!--                                <c:when test="${kind.kind_no==pro.kind_no }">-->
+                                    <label class="maright-15" th:each="kind : ${session.kindList}">
+                                        <input type="radio" name="kind_no" th:value="${kind?.kind_no }" th:attr="checked=${kind?.kind_no==project?.kind?.kind_no ? 'true' : 'false'}">
+                                        <label th:text="${kind.kind_name}">kind_name</label>
+                                    </label>
+<!--                                </c:when>-->
+<!--                                <c:otherwise>-->
+<!--                                    <label class="maright-15">-->
+<!--                                        <input type="radio" name="kind_no" value="${kindVo.kind_no }">-->
+<!--                                        ${kindVo.kind_name }-->
+<!--                                    </label>-->
+<!--                                </c:otherwise>-->
+<!--                            </c:choose>-->
+<!--                        </c:forEach>-->
+                    </div>
+                </div>
+
+                <!-- 프로젝트 개요 -->
+                <div class="dis-block martop-20">
+                    <h3>프로젝트 개요</h3>
+                    <textarea id="pro_cont" name="pro_cont" rows="" cols="" placeholder="프로젝트 목표 및 개요 입력" th:text="${project?.pro_cont}">project.pro_cont</textarea>
+                </div>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="수정">
+            </footer>
+        </form>
+    </div>
+
+</div>
+<!-- 프로젝트 수정 레이어 팝업:f -->
+
+<!-- 프로젝트 참여자 나가기 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="deleteProUser" class="pop-layer">
+        <form action="/pro/deleteProUser" method="get">
+
+            <input type="hidden" id="pro_no" name="pro_no" th:value="${project?.pro_no }">
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <p class="marbtm-0 padtop-20 size-20 color-gray text-center">
+                    해당 프로젝트를 나가시겠습니까?
+                </p>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="나가기">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 프로젝트 참여자 나가기 레이어 팝업:f -->
+
+<!-- 프로젝트 삭제 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="deletePro" class="pop-layer">
+        <form action="/pro/delete" method="get" class="timeline-del-form">
+
+            <input type="hidden" name="pro_no" th:value="${project?.pro_no }">
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <p class="marbtm-0 padtop-20 size-20 color-gray text-center">
+                    해당 프로젝트를 삭제하시겠습니까?
+                </p>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+<!--                <c:choose>-->
+<!--                    <th:if="${timeLineList.size() != 0" test="${timeLineList.size() != 0 }">-->
+                        <input th:if="${not #strings.isEmpty(timeLine) and #lists.size(timeLineList) gt 0}" type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" onclick="fn_failDeletePro()" value="삭제하기">
+<!--                    </th:if>-->
+<!--                    <c:otherwise>-->
+                        <input th:if="${#strings.isEmpty(timeLine) or #lists.size(timeLineList) == 0}" type="submit" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="삭제하기"><!--                    </c:otherwise>-->
+<!--                </c:choose>-->
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 프로젝트 삭제 레이어 팝업:f -->
+
+<!-- 프로젝트 보관함 설정 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="proFolderEdit" class="pop-layer">
+        <form class="proFolderEdit-form">
+            <input type="hidden" id="pro_no" name="pro_no" th:value="${project?.pro_no }">
+
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                보관함 설정
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <p class="color-gray marbtm-10">이동할 보관함을 선택하세요.</p>
+
+                <!-- 보관함명 -->
+                <ul class="dis-block martop-20">
+                    <li th:each="box : ${member?.boxList}">
+                        <input type="checkbox" th:id="'proFolder' + ${boxStat.count}" name="box_no" th:value="${box.box_no }" class="custom-check-input" th:attr="checked=${box.pro_box_chk != 0 ? 'true' : 'false'}">
+                        <label th:for="'proFolder' + ${boxStat.count }"><span th:text="${box.box_name }"></span> </label>
+                    </li>
+                </ul>
+            </section>
+
+        </form>
+    </div>
+
+</div>
+<!-- 프로젝트 보관함 설정 레이어 팝업:f -->
+
+<!-- 내 정보 레이어 팝업 : s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+    <div id="profileMyPopup" class="pop-layer pop-layer-style">
+        <form action="/chat/insert" method="post" name="myChatFom">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로필정보
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <div class="prof_thumb">
+                    <div class="pop-pic">
+                        <img th:src="@{/mem/pic?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id}" onerror="this.src='/image/user-pic-sample.png'" class="pop-pic-img">
+                    </div>
+                </div>
+
+                <div class="prof_info">
+                    <div class="prof_top">
+                        <h2>
+                            <span class="flnm"></span>
+                        </h2>
+                    </div>
+                    <ul class="prof_cn">
+                        <li class="cmnm"></li>
+                        <li class="phone"></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" id="chat-btn-my" value="채팅하기">
+                <a href="/mem/memEdit" class="dis-inblock pop-btn submit-btn marleft-5 back-color-pupple-l">프로필 수정</a>
+            </footer>
+
+            <input type="hidden" name="mem_id" id="mem_id_my">
+            <input type="hidden" name="chat_title" id="chat_title_my">
+            <input type="hidden" name="ptn_id" id="ptn_id_my">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+	</script>
+
+</div>
+<!-- 내 정보 레이어 팝업 : f -->
+
+<!-- top > chat > 동료(친구) 정보 레이어 팝업 : s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+    <div id="ptnPopup" class="pop-layer pop-layer-style">
+        <form name="ptnChatFom" action="/chat/insert" class="ptn-from">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로필정보
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <div class="prof_thumb">
+                    <div class="pop-pic">
+                        <img src="" class="pop-pic-img">
+                    </div>
+                </div>
+
+                <div class="prof_info">
+                    <div class="prof_top">
+                        <h2>
+                            <span class="flnm"></span>
+                        </h2>
+                    </div>
+                    <ul class="prof_cn">
+                        <li class="cmnm"></li>
+                        <li class="phone"></li>
+                        <li class="my_id" style="display:none"></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" id="chat-btn-ptn" value="채팅하기"/>
+                <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" id="apply-btn-ptn" value="친구신청"/>
+            </footer>
+
+            <input type="hidden" name="mem_id" id="mem_id_ptn">
+            <input type="hidden" name="chat_title" id="chat_title_ptn">
+            <input type="hidden" name="ptn_id" id="ptn_id_ptn">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+	</script>
+</div>
+<!-- top > chat > 동료(친구) 정보 레이어 팝업 : f -->
+
+<!-- top > chat > 프로젝트 팀원 정보 레이어 팝업 : s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="proPopup" class="pop-layer pop-layer-style">
+        <form name="proChatFom" action="/chat/insert" class="ptn-from">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로필정보
+                <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <div class="prof_thumb">
+                    <div class="pop-pic">
+                        <img src="" class="pop-pic-img">
+                    </div>
+                </div>
+
+                <div class="prof_info">
+                    <div class="prof_top">
+                        <h2>
+                            <span class="flnm"></span>
+                        </h2>
+                    </div>
+                    <ul class="prof_cn">
+                        <li class="cmnm"></li>
+                        <li class="phone"></li>
+                        <li class="my_id" style="display:none"></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" id="chat-btn-pro" value="채팅하기"/>
+            </footer>
+
+            <input type="hidden" name="mem_id" id="email_pro">
+            <input type="hidden" name="chat_title" id="chat_title_pro">
+            <input type="hidden" name="ptn_id" id="ptn_id_pro">
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+
+	</script>
+</div>
+<!-- top > chat > 프로젝트 팀원 정보 레이어 팝업 : f -->
+
+<!-- 상단 고정글 확인 레이어 팝업 : s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="fixCheck" class="pop-layer">
+        <!-- pop header -->
+        <header class="pop-top border-box">
+            상단고정 설정
+            <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+        </header>
+
+        <!-- pop con -->
+        <section class="pop-con border-box">
+            <p class="fix-n">이 글을 상단고정 하시겠습니까?</p>
+            <p class="fix-y">이 글을 상단고정 해제 하시겠습니까?</p>
+        </section>
+
+        <!-- pop footer -->
+        <footer class="pop-footer border-box">
+            <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+            <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l fix-submit-btn" value="확인">
+        </footer>
+    </div>
+</div>
+
+<form action="" method="get" class="fix-form">
+    <input type="hidden" class="timeline_col" value="">
+    <input type="hidden" class="timeline_no" value="" name="timeline_no">
+    <input type="hidden" class="fix_chk" value="" name="fix_chk">
+</form>
+
+<!-- 상단 고정글 확인 레이어 팝업 : f -->
+
+<!-- 타임라인 삭제 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="deleteTimeLine" class="pop-layer">
+        <form action="" method="get" class="timeline-del-form">
+
+            <input type="hidden" class="timeline_col" value="">
+            <input type="hidden" class="timeline_no" name="timeline_no" value="">
+            <input type="hidden" name="pro_no" th:value="${project?.pro_no }">
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                <p class="marbtm-0 padtop-20 size-20 color-gray text-center">
+                    글을 삭제하시겠습니까?
+                </p>
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" class="pop-btn default-btn btn-close" value="취소">
+                <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l timeline-del-btn" value="삭제하기">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- 타임라인 삭제 레이어 팝업:f -->
+
+<!-- 업무상태 수정 confirm 레이어 팝업:s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+
+    <div id="editTaskState" class="pop-layer">
+
+        <form action="/task/state" method="get">
+            <input type="hidden" name="task_no" value="">
+            <input type="hidden" name="task_state" value="">
+            <!-- pop con -->
+            <section class="pop-con border-box">
+                상태를 변경하시겠습니까?
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" name="" id="editNo" class="pop-btn default-btn btn-close" value="취소">
+                <input type="submit" name="" id="editYes" class="pop-btn submit-btn marleft-5 back-color-pupple-l" value="변경">
+            </footer>
+        </form>
+
+    </div>
+
+</div>
+<!-- 업무상태 수정 confirm 레이어 팝업:f -->
+
+<!-- top > alim > 동료(친구) 수락  레이어 팝업 : s -->
+<div class="dim-layer">
+    <div class="dimBg"></div>
+    <div id="ptnAcceptPopup" class="pop-layer pop-layer-style">
+
+        <!-- pop header : s -->
+        <header class="pop-top border-box">
+            프로필 정보
+            <a href="#" class="posi-ab dis-block over-hidden icon-close btn-close">close</a>
+        </header>
+        <!-- pop header : f -->
+
+        <!-- pop content : s -->
+        <section class="pop-con border-box">
+            <div class="prof_thumb">
+                <div class="pop-pic">
+                    <img src="" class="pop-pic-img">
+                </div>
+            </div>
+
+            <div class="prof_info">
+                <div class="prof_top">
+                    <h2>
+                        <span class="flnm"></span>
+                    </h2>
+                </div>
+                <ul class="prof_cn">
+                    <li class="cmnm"></li>
+                    <li class="phone"></li>
+                </ul>
+            </div>
+        </section>
+        <!-- pop content : f -->
+
+        <!-- pop footer -->
+        <footer class="pop-footer border-box">
+            <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" id="accept-btn-ptn" value="친구수락"/>
+            <input type="button" name="" class="pop-btn submit-btn marleft-5 back-color-pupple-l btn-close" id="cancel-btn-ptn" value="거절하기"/>
+        </footer>
+
+        <input type="hidden" class="ptn_no" id="ptn_no" name="ptn_no">
+        <input type="hidden" class="alim_no" id="alim_no" name="alim_no">
+    </div>
+
+    <script type="text/javascript">
+
+	</script>
+</div>
+<!-- top > alim > 동료(친구) 수락  레이어 팝업 : f -->
+
+
+
+<script src="/js/layerPop.js"></script> <!-- layer pop-up js -->
+</div>

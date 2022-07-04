@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="timeline_schedule">
+    <div class="timeline-article con-schedule">
+        <div class="container">
+            <div class="schedule-header">
+                <dl>
+                    <dt class="maright-15">
+<!--                        <span class="dis-block font-thin size-20 color-red text-center" th:text="${#temporals.format(timeLine.schedule.schd_start_time, 'MM') +'월'}">timeLine.schd.schd_start_time월</span>-->
+<!--                        <strong class="dis-block font-bold size-40 color-black text-center" th:text="${#temporals.format(timeLine.schedule.schd_start_time, 'dd')}">timeLine.schd.schd_start_time</strong>-->
+                    </dt>
+                    <dd class="font-bold size-20 color-black" th:text="${timeLine.schedule.schd_title}">timeLine.schedule.schd_title</dd>
+                    <dd class="martop-10 font-bold size-16 color-black" th:text="${timeLine.schedule.schd_start_time} + ' - ' + ${timeLine.schedule.schd_end_time}">${timeLine.schedule.schd_start_time }   -   ${timeLine.schedule.schd_end_time }</dd>
+                </dl>
+            </div>
+
+            <!-- 위치 검색:s -->
+            <th:block th:if="${not #strings.isEmpty(timeLine.schedule.schd_loc)}">
+                    <div class="input-box">
+                        <dl>
+                            <dt class="maright-20"><i class="fas fa-map-marker-alt"></i></dt>
+                            <dd>
+                                <div class="dis-block marbtm-15" th:text="${timeLine.schedule.schd_loc}">${timeLine.schedule.schd_loc }</div>
+                                <a th:href="@{https://www.google.com/maps/search/?api=1&query=} + ${timeLine.schedule.schd_loc }" target="google_blank" class="marleft-15">지도보기</a>
+                                <div id="googleMap" class="dis-block" >
+                                    <img th:src="@{https://maps.googleapis.com/maps/api/staticmap?center=} + ${timeLine.schedule.schd_lat } + ',' + ${timeLine.schedule.schd_lon } + '&zoom=15&size=800x200&markers=color:red|' + ${timeLine.schedule.schd_lat } + ',' + ${timeLine.schedule.schd_lon } + '&key=AIzaSyCHe2Zuo-9RXsRMspMgH5jXyMPmunB99fY'" style="height:100%; width:100%; border:1px solid black;">
+<!--                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=${timeLine.schedule.schd_lat },${timeLine.schedule.schd_lon }&amp;zoom=15&amp;size=800x200&amp;markers=color:red|${timeLine.schedule.schd_lat },${timeLine.schedule.schd_lon }&amp;key=AIzaSyAmxDFvVfjjBQ0eWrQ2Pgv8odc0L8rbJU4" style="height:100%; width:100%">-->
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+<!--                </c:when>-->
+<!--            </c:choose>-->
+            </th:block>
+            <!-- 위치 검색:f -->
+
+            <!-- 메모:s -->
+            <th:block th:if="${not #strings.isEmpty(timeLine.schedule.schd_memo)}">
+                <div class="input-box martop-15">
+                    <dl>
+                        <dt class="maright-20"><i class="fas fa-sticky-note"></i></dt>
+                        <dd th:text="${timeLine.schedule.schd_memo}">
+                            timeLine.schedule.schd_memo
+                        </dd>
+                    </dl>
+                </div>
+            </th:block>
+            <!-- 메모:f -->
+
+            <!-- 알람:s -->
+            <th:block th:if="${not #strings.isEmpty(timeLine.schedule.minute)}">
+                <div class="input-box martop-15" style="border:0">
+                    <dl>
+                        <dt class="maright-20"><i class="fas fa-bell"></i></dt>
+                        <dd th:text="${timeLine.schedule.minute} + ' 전 미리알림'">
+                            ${timeLine.schdVo.minute} 전 미리알림
+                        </dd>
+                    </dl>
+                </div>
+            </th:block>
+            <th:block th:if="${#strings.isEmpty(timeLine.schedule.minute)}">
+                <div class="input-box martop-15" style="border:0">
+                    <dl>
+                        <dt class="maright-20"><i class="fas fa-bell"></i></dt>
+                        <dd>
+                            미리알림 없음
+                        </dd>
+                    </dl>
+                </div>
+            </th:block>
+            <!-- 알람:f -->
+        </div>
+    </div>
+
+
+    <!-- 일정 수정:s -->
+    <form action="/schd/update" class="article-edit-form" method="POST">
+        <input type="hidden" name="schd_no" th:value="${timeLine.schedule.schd_no }">
+        <input type="hidden" name="pro_no" th:value="${timeLine.schedule.project.pro_no }">
+        <!-- article edit box:s -->
+        <div class="article-edit-box">
+
+            <!-- 일정제목:s -->
+            <div class="input-box">
+                <input type="text" name="schd_title" class="font-bold size-18" th:value=" ${timeLine.schedule.schd_title }" required="required">
+            </div>
+            <!-- 일정제목:f -->
+
+            <!-- 일정 시간 설정:s -->
+            <div class="input-box martop-15">
+                <dl>
+                    <dt class="maright-20"><i class="far fa-clock"></i></dt>
+                    <dd>
+                        <input type="hidden" th:value="${timeLine.schedule.schd_start_time } + '   -   ' + ${timeLine.schedule.schd_end_time }" name="defaultDate">
+                        <input type="text"
+                        th:placeholder="${timeLine.schedule.schd_start_time } +  '   -   ' + ${timeLine.schedule.schd_end_time }"
+                        data-range="true"
+                        data-multiple-dates-separator="   -   "
+                        class="datepicker-here"
+                        id="datetime"
+                        name="datetime"
+                        style="width:100%"/>
+                    </dd>
+                </dl>
+            </div>
+            <!-- 일정 시간 설정:f -->
+
+            <!-- 위치 검색:s -->
+            <div class="input-box martop-15">
+                <dl>
+                    <dt class="maright-20"><i class="fas fa-map-marker-alt"></i></dt>
+                        <th:block th:if="${not #strings.isEmpty(timeLine.schedule.schd_loc)}">
+                            <dd>
+                                <input id="searchInput2" name ="schd_loc" class="controls" type="text" th:value="${timeLine.schedule.schd_loc }"   style="width:90%">
+                                <div id="map" class="dis-block map" style="width:100%;"></div>
+                                <input type="hidden" id="schd_lat2" class="schd_lat2"name="schd_lat" th:value="${timeLine.schedule.schd_lat}">
+                                <input type="hidden" id="schd_lon2" class="schd_lon2"name="schd_lon" th:value="${timeLine.schedule.schd_lon}">
+                            </dd>
+                        </th:block>
+                        <th:block th:if="${#strings.isEmpty(timeLine.schedule.schd_loc)}">
+                            <dd>
+                                <input id="searchInput2" name ="schd_loc" class="controls" type="text" style="width:90%">
+                                <input type="hidden" class="schd_lat2" id="schd_lat2" name="schd_lat" th:value="${timeLine.schedule.schd_lat}">
+                                <input type="hidden" class="schd_lon2" id="schd_lon2" name="schd_lon" th:value="${timeLine.schedule.schd_lon}">
+                            </dd>
+                        </th:block>
+                </dl>
+            </div>
+            <!-- 위치 검색:f -->
+
+
+            <script>
+			$('.datepicker-here').datepicker({
+				timepicker : true,
+				language : 'ko',
+				startMinute : 0,
+				maxMinutes : 50,
+				minutesStep : 10,
+				autoClose : true
+			})
+		</script>
+
+
+            <!-- 메모:s -->
+            <div class="input-box martop-15">
+                <dl>
+                    <dt class="maright-20"><i class="fas fa-sticky-note"></i></dt>
+                    <dd>
+                        <textarea rows="2" cols="" name="schd_memo" th:text="${timeLine.schedule.schd_memo}">timeLine.schedule.schd_memo</textarea>
+                    </dd>
+                </dl>
+            </div>
+            <!-- 메모:f -->
+
+            <!-- 알람:s -->
+            <div class="input-box martop-15">
+                <dl>
+                    <dt class="maright-20"><i class="fas fa-bell"></i></dt>
+                    <dd>
+                        <select name="alert_time" onchange="getSelectValue(this.form);">
+                            <option value="0">없음</option>
+                            <option value="10">10분전 미리알림</option>
+                            <option value="30">30분전 미리알림</option>
+                            <option value="60">1시간전 미리알림</option>
+                            <option value="120">2시간전 미리알림</option>
+                            <option value="180">3시간전 미리알림</option>
+                            <option value="1440">1일전</option>
+                            <option value="2880">2일전</option>
+                            <option value="10080">7일전</option>
+                        </select>
+                    </dd>
+                </dl>
+            </div>
+            <!-- 알람:f -->
+        </div>
+        <!-- article edit box:f -->
+
+        <!-- article edit dn:s -->
+        <div class="article-edit-dn">
+            <!-- submit & cancel 버튼 -->
+            <input type="submit" value="수정하기" class="article-submit-btn font-bold size-16 color-white text-center default-back-color">
+            <input type="button" value="취소" onclick="fn_editCancel(this)"
+                   class="article-submit-btn maright-10 font-bold size-16 color-gray text-center back-color-white"
+                   style="border:1px solid #ddd">
+        </div>
+        <!-- article edit dn:f -->
+    </form>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHe2Zuo-9RXsRMspMgH5jXyMPmunB99fY&libraries=places&callback=autoComplete" async defer></script>
+    <script type="text/javascript">
+    /*******************************************
+    * Google Map Api
+    *******************************************/
+
+    function autoComplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center : {
+                lat : -33.8688,
+                lng : 151.2195
+            },
+            zoom : 13
+        });
+        var input = document.getElementById('searchInput2');
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            map : map,
+            anchorPoint : new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("장소를 선택해주세요");
+                return;
+            }
+
+            // 지역정보가 있으면 맵에 표시하기
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+            marker.setIcon(({
+                url : place.icon,
+                size : new google.maps.Size(71, 71),
+                origin : new google.maps.Point(0, 0),
+                anchor : new google.maps.Point(17, 34),
+                scaledSize : new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0]
+                            && place.address_components[0].short_name || ''),
+                    (place.address_components[1]
+                            && place.address_components[1].short_name || ''),
+                    (place.address_components[2]
+                            && place.address_components[2].short_name || '') ]
+                    .join(' ');
+            }
+
+            infowindow.setContent('<div><strong>' + place.name
+                    + '</strong><br>' + address);
+            infowindow.open(map, marker);
+
+            $('#schd_lat2').val(place.geometry.location.lat());
+            $('#schd_lon2').val(place.geometry.location.lng());
+            console.log('위도'+place.geometry.location.lat());
+            console.log('경도'+place.geometry.location.lng());
+        });
+    }
+    </script>
+    <!-- 일정 수정:f -->
+</th:block>
+</html>

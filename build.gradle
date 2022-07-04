@@ -8,14 +8,53 @@ group = 'kr.or'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+//configuations {
+//	compileOnly {
+//		extendsFrom annotationProcessor
+//	}
+//}
+
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-quartz'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"
+
+	// mybatis와 관련된 dependency(jdbc, mybatis)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+
+	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
+	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-java8time', version: '3.0.4.RELEASE'
+
+	implementation group: 'javax.servlet', name: 'jstl', version: '1.2'
+	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+	implementation group: 'org.springframework', name: 'spring-websocket', version: '4.0.1.RELEASE'
+	implementation group: 'org.json', name: 'json', version: '20160810'
+	implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+	implementation 'javax.servlet:jstl'
+	implementation 'commons-io:commons-io:2.11.0'
+
+	// SQL value 출력
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

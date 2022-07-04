@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div class="dim-layer" th:fragment="mem_edit_info">
+    <div class="dimBg"></div>
+
+    <div id="memInfoEditPop" class="pop-layer">
+        <form action="/mem/memUpdate" method="post" enctype="multipart/form-data" id="updateFrm">
+            <!-- pop header -->
+            <header class="pop-top border-box">
+                프로필 정보
+                <a onclick="fn_userMemEditCancel(this)" class="posi-ab dis-block over-hidden icon-close cursor-point">close</a>
+            </header>
+
+            <!-- pop con -->
+            <section class="pop-con border-box">
+
+                <!-- member profile img : s -->
+                <div class="mem-profile-img">
+                    <i class="icon-circle circle-b"></i>
+                    <img th:src="@{/mem/pic?mem_id=} + ${#authentication.getPrincipal().getMember().mem_id}" class="profile-pic" onerror="this.src='/image/user-pic-sample.png'" width="150">
+
+                    <!-- file button : s-->
+                    <div class="file-btn-box">
+                        <i class="fa fa-camera upload-btn"></i>
+                        <input type="file" name="mem_pic" id="mem_pic" class="photo-upload" accept=".png, .jpg, .jpeg, .gif">
+                    </div>
+                    <!-- file button : f-->
+                </div>
+                <!-- member profile img : f -->
+
+                <!-- photo image change script //-->
+                <script type="text/javascript">
+                $(document).ready(function() {
+                    var readURL = function(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                $('.profile-pic').attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+
+                    $(".photo-upload").on('change', function(){
+                        readURL(this);
+                    });
+
+                    $(".upload-btn").on('click', function() {
+                       $(".photo-upload").click();
+                    });
+
+                });
+                </script>
+                <!--// photo image change script -->
+
+
+                <!-- member profile info : s -->
+                <div class="mem-profile-info">
+                    <table class="table">
+                        <colgroup>
+                            <col width="30%"><col width="70%">
+                        </colgroup>
+                        <tr>
+                            <td>아이디</td>
+                            <td th:text="${#authentication.getPrincipal().getMember().mem_id}">#authentication.getPrincipal().getMember().mem_id</td>
+                            <input type="hidden" name="mem_id" id="mem_id" th:value="${#authentication.getPrincipal().getMember().mem_id}">
+                        </tr>
+                        <tr>
+                            <td>이름</td>
+                            <td>
+                                <input type="text" id="mem_name" name="mem_name" th:value="${#authentication.getPrincipal().getMember().mem_name }" readonly="readonly">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>닉네임</td>
+                            <td>
+                                <input type="text" id="mem_nick" name="mem_nick" th:value="${#authentication.getPrincipal().getMember().mem_nick }" readonly="readonly">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>가입일</td>
+                            <td id="mem_date" th:text="${#temporals.format(#authentication.getPrincipal().getMember().createDate, 'yyyy-MM-dd')}"></td>
+                        </tr>
+                        <tr>
+                            <td>휴대폰번호</td>
+                            <td th:text="${#authentication.getPrincipal().getMember().mem_phone}">#authentication.getPrincipal().getMember().mem_phone</td>
+                        </tr>
+                        <tr>
+                            <td>가입방법</td>
+                            <td id="mem_howjoin">
+                                <th:block th:if="${#strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'b')}">
+                                    Basic
+                                </th:block>
+                                <th:block th:if="${#strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'g')}">
+                                    Google
+                                </th:block>
+                                <th:block th:if="${#strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'k')}">
+                                    Kakao
+                                </th:block>
+<!--                                <c:choose>-->
+<!--                                    <c:when test="${memVo.mem_howjoin == 'g'}">-->
+<!--                                        Google-->
+<!--                                    </c:when>-->
+<!--                                    <c:when test="${memVo.mem_howjoin == 'k'}">-->
+<!--                                        Kakao-->
+<!--                                    </c:when>-->
+<!--                                    <c:otherwise>-->
+<!--                                        Basic-->
+<!--                                    </c:otherwise>-->
+<!--                                </c:choose>-->
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- member profile info : f -->
+
+            </section>
+
+            <!-- pop footer -->
+            <footer class="pop-footer border-box">
+                <input type="button" value="수정하기" onclick="fn_userMemEditActive(this)" class="mem-edit-btn pop-btn default-btn">
+                <input type="button" value="취소" onclick="fn_userMemEditCancel(this)" class="mem-edit-cancel pop-btn color-white back-color-red" style="display:none">
+                <input type="submit" value="저장" id="sub" class="pop-btn submit-btn marleft-5 back-color-pupple-l" style="display:none">
+            </footer>
+
+        </form>
+    </div>
+
+</div>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common/head :: head('FLOWOLF')"></head>
+<body>
+<div class="body-wrap-full open-nav">
+    <div class="container">
+
+        <!-- body-left-panel:s -->
+        <aside class="body-left-panel">
+            <nav th:replace="fragments/common/aside :: aside"></nav>
+        </aside>
+        <!-- body-left-panel:f -->
+
+        <!-- body-right-panel:s -->
+        <div class="body-right-panel">
+
+            <!-- aside open&close btn -->
+            <div class="nav-toggle-btn">
+                <a href="#toggleBtn" class="flow-icon">aside nav btn</a>
+            </div>
+
+            <!-- top -->
+            <header th:replace="fragments/common/top :: top"></header>
+
+            <!-- contents -->
+            <section class="content full-calendar">
+                <div class="project-wrap">
+                    <div class='modal fade' id='successModal' tabindex='-1' role='dialog' aria-labelledby='successModalLabel' aria-hidden='true'>
+                        <div class='modal-dialog' role='document'>
+                            <div class='modal-content'>
+                                <div class="modal-header" id="rwriter" style="font-weight:700;font-family:ghodic; font-size:150%;background-color:#dddddd;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class='modal-body'>
+                                    <a id ='pno' class="coll-head-link">
+                                        &nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;   프로젝트 바로가기<i class="fas fa-angle-double-right marleft-10"></i>
+                                    </a>
+                                    <div class="timeline-article con-schedule" style="width:auto;">
+                                        <div class="container">
+                                            <div class="schedule-header">
+                                                <dl>
+                                                    <dt class="maright-15">
+                                                        <span class="dis-block font-thin size-20 color-red text-center" id="rmonth"></span>
+                                                        <strong class="dis-block font-bold size-40 color-black text-center" id="rday"></strong>
+                                                    </dt>
+                                                    <dd class="font-bold size-20 color-black" id="rtitle"></dd>
+                                                    <dd class="martop-10 font-bold size-16 color-black" id="rduration"></dd>
+                                                </dl>
+                                            </div>
+                                            <!-- 위치 검색:s -->
+                                            <div id="viewResolver" class="input-box martop-15">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <span id="rlocation"></span>
+                                                <span class="dis-block" id="rmap"></span>
+                                            </div>
+                                            <!-- 메모:s -->
+                                            <div class="input-box martop-15">
+                                                <p></p>
+                                                <i class="fas fa-sticky-note"></i>
+                                                <span id="rmemo"></span>
+                                            </div>
+                                            <!-- 알람:s -->
+                                            <div>
+                                                <p></p>
+                                                <i class="fas fa-bell"></i>
+                                                <span id="ralarm"></span>
+                                            </div>
+                                            <!-- 알람:f -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- full calendar left content : s -->
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 padleft-0 full-calendar-left">
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- full calendar left content : f -->
+
+
+                    <!-- full calendar right content : s -->
+<!--                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 padright-0 full-calendar-right">-->
+
+<!--                        <strong class="dis-block marbtm-18 padleft-10 font-thin size-20 color-gray">일정</strong>-->
+
+<!--                        <ul class="schd-edit marbtm-20">-->
+<!--                            <li>-->
+<!--                                <input type="radio" id="myInsertSchd" name="radio" class="custom-check-input schd-my-check"-->
+<!--                                       onchange="fn_myInsertSchdCheck(this)">-->
+<!--                                <label for="myInsertSchd">내가 등록한 일정</label>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <input type="radio" id="inviteSchd" name="radio" class="custom-check-input schd-invite-check"-->
+<!--                                       onchange="fn_inviteSchdCheck(this)">-->
+<!--                                <label for="inviteSchd">초대받은 일정</label>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <input type="radio" id="allSchd" name="radio" class="custom-check-input schd-all-check"-->
+<!--                                       onchange="fn_allSchdCheck(this)" checked>-->
+<!--                                <label for="allSchd">모든 일정</label>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+
+<!--                    </div>-->
+                    <!-- full calendar right content : f -->
+                </div>
+            </section>
+
+            <link href='https://code.jquery.com/ui/1.12.1/themes/hot-sneaks/jquery-ui.css' rel="stylesheet"/>
+            <link href='/js/fullcalendar.css' rel='stylesheet' />
+            <link href='/js/fullcalendar.print.css' rel='stylesheet' media='print' />
+            <script src='/js/moment.min.js'></script>
+            <script src='/js/fullcalendar.min.js'></script>
+            <script src='/js/ko.js'></script>
+
+            <script type="text/javascript">
+            $(document).ready(function(){
+                  ajaxData();
+            });
+
+            function ajaxData() {
+                $.ajax({
+                    type : "POST",
+                    url : "/schd/callCalendar2"
+                }).done(function(schd) {
+                    var mySchedule = schd.mySchedule; //내가만든리스트
+                    var invitedSchd = schd.invitedSchd; //내가초대된리스트
+
+                    //내가 설정한 스케줄 리스트
+                    var test = [];
+                    if(mySchedule.length>0){
+                        for(var i = 0; i<mySchedule.length; i++){
+                            test.push({
+                                id 		: mySchedule[i].schd_no
+                                ,title	: mySchedule[i].schd_title
+                                ,start	: mySchedule[i].schd_start_time
+                                ,end	: mySchedule[i].schd_end_time
+                                ,color	: '#ee6d66'
+                                ,schd_loc	: mySchedule[i].schd_loc
+                                ,memo	: mySchedule[i].schd_memo
+                                ,st		: mySchedule[i].schd_start_time
+                                ,alarm	: mySchedule[i].schd_alarm
+                                ,ed		: mySchedule[i].schd_end_time
+                                ,writer	: mySchedule[i].mem_nick
+                                ,lat	: mySchedule[i].schd_lat
+                                ,lon	: mySchedule[i].schd_lon
+                                ,pro_no : mySchedule[i].pro_no
+                            })
+                        }
+                    }
+
+                    //내가 초대된 스케줄 리스트
+                    if(invitedSchd.length>0){
+                        for(var i = 0; i<invitedSchd.length; i++){
+                            test.push( {
+                                id		: invitedSchd[i].schd_no
+                                ,title	: invitedSchd[i].schd_title
+                                ,start	: invitedSchd[i].schd_start_time
+                                ,end	: invitedSchd[i].schd_end_time
+                                ,color	: '#f1c40f'
+                                ,schd_loc	: invitedSchd[i].schd_loc
+                                ,memo	: invitedSchd[i].schd_memo
+                                ,st		: invitedSchd[i].schd_start_time
+                                ,ed		: invitedSchd[i].schd_end_time
+                                ,alarm	: invitedSchd[i].schd_alarm
+                                ,writer	: invitedSchd[i].mem_nick
+                                ,lat	: invitedSchd[i].schd_lat
+                                ,lon	: invitedSchd[i].schd_lon
+                                ,pro_no : invitedSchd[i].pro_no
+                            })
+                        }
+                    }
+                    //캘린더
+                    calendarRendering(test)
+                }).fail(function( jqXHR, textStatus ) {
+                    alert( "Request failed: " + textStatus );
+                });
+            }
+
+
+
+            //모든일정 체크 event
+            function fn_allSchdCheck(el){
+                $('#calendar').fullCalendar('destroy');
+                var item = $(el);
+                if(item.prop('checked')){
+                    ajaxData();
+                }
+            }
+
+            //내가 초대된 일정 클릭했을때 event
+            function fn_inviteSchdCheck(el){
+                var item = $(el);
+                if(item.prop('checked')){
+                    //기존의 calendar rendering된 이벤트 제거
+                    $('#calendar').fullCalendar('destroy');
+                    $.ajax({
+                        type : "POST",
+                        url : "/schd/callCalendar2"
+                    }).done(function(schd) {
+                        var invitedSchd = schd.invitedSchd; //내가초대된리스트
+                        //내가 설정한스케줄리스트 Array로 담기
+                        var test = [];
+                        if(invitedSchd.length>0){
+                            for(var i = 0; i<invitedSchd.length; i++){
+                                test.push({
+                                    id		: invitedSchd[i].schd_no
+                                    ,title	: invitedSchd[i].schd_title
+                                    ,start	: invitedSchd[i].schd_start_time
+                                    ,end	: invitedSchd[i].schd_end_time
+                                    ,color	: '#f1c40f'
+                                    ,schd_loc	: invitedSchd[i].schd_loc
+                                    ,memo	: invitedSchd[i].schd_memo
+                                    ,st		: invitedSchd[i].schd_start_time
+                                    ,ed		: invitedSchd[i].schd_end_time
+                                    ,alarm	: invitedSchd[i].schd_alarm
+                                    ,writer	: invitedSchd[i].mem_nick
+                                    ,lat	: invitedSchd[i].schd_lat
+                                    ,lon	: invitedSchd[i].schd_lon
+                                    ,pro_no : invitedSchd[i].pro_no
+                                })
+                            }
+                        }
+                        //캘린더 render
+                        calendarRendering(test);
+                    }).fail(function( jqXHR, textStatus ) {
+                        alert( "일정 로딩 실패" + textStatus );
+                    });
+                }
+            }
+
+            // 내가 등록한 일정 보여주기
+            function fn_myInsertSchdCheck(el){
+                var item = $(el);
+
+                if(item.prop('checked')){
+
+                    //기존의 calendar rendering된 이벤트 제거
+                    $('#calendar').fullCalendar('destroy');
+                    $.ajax({
+                        type : "POST",
+                        url : "/schd/callCalendar2",
+                        dataType: "json"
+                    }).done(res => {
+                        var test = [];
+                        res.mySchedule.forEach((schedule) => {
+                            test.push({
+                                     id 	: schedule.schd_no
+                                    ,title	: schedule.schd_title
+                                    ,start	: schedule.schd_start_time
+                                    ,end	: schedule.schd_end_time
+                                    ,color	: '#ee6d66'
+                                    ,schd_loc	: schedule.schd_loc
+                                    ,memo	: schedule.schd_memo
+                                    ,st		: schedule.schd_start_time
+                                    ,ed		: schedule.schd_end_time
+                                    ,writer	: schedule.mem_nick
+                                    ,lat	: schedule.schd_lat
+                                    ,lon	: schedule.schd_lon
+                                    ,pro_no : schedule.pro_no
+                                })
+                        });
+                        calendarRendering(test);
+                    }).fail(function( jqXHR, textStatus ) {
+                        alert( "일정 로딩 실패" + textStatus );
+                    });
+
+                }
+            }
+
+            function calendarRendering(test){
+                $('#calendar').fullCalendar({
+                    header:{ //헤더부분에 뜨는 메뉴 설정
+                        left : "month, agendaWeek, agendaDay",
+                        center: "title",
+                        right:"today, prevYear,prev,next,nextYear"
+                    },
+                    buttonText:{
+                        prevYear:new moment().year() -1,
+                        nextYear:new moment().year() +1
+                    },
+                    viewRender:function(view){
+                        var y = moment($('#calendar').fullCalendar('getDate')).year();
+                        $(".fc-prevYear-button").text(y-1);
+                        $(".fc-nextYear-button").text(y+1);
+                    },
+                    themeSystem:"jquery-ui",
+                    events : test,
+                    eventClick: function(r) {
+                        rendering(r)
+                    }
+                });
+            }
+
+            function rendering(r){
+                $('#successModal').modal('show');
+                $('#pno').attr('href', '/pro/detail/'+r.pro_no);
+                $('#rwriter').html('&nbsp  &nbsp'+r.writer);
+                $('#rtitle').html(r.title);
+                $('#rmonth').html(r.st.substr(5,2)+'월');
+                $('#rday').html(r.st.substr(8,2));
+                $('#rduration').html(getFormatDate(new Date(r.st))+" - "+getFormatDate(new Date(r.ed)));
+                $('#rlocation').html(placeFormatter(r));
+                $('#rmap').html(view(r.lon,r.lat));
+                $('#rmemo').html('&nbsp &nbsp'+memoBinder(r.memo));
+                $('#ralarm').html('&nbsp &nbsp'+alertFormatter(r.st, r.alarm));
+
+            }
+
+            function memoBinder(r){
+                var memo = null;
+                if(r == 'undefined' || r == null || r == ''){
+                    memo = '메모 없음';
+                    return memo;
+                }
+                console.log('콘솔' + r);
+                return r;
+            }
+
+
+            function placeFormatter(r){
+                console.log(r);
+                var diff=null;
+                var placeMaker = '';
+                if(r.schd_loc==diff|| r.schd_loc==placeMaker || r.schd_loc== null|| r.schd_loc =='undefined'){
+                    $("#viewResolver").hide();
+                }else{
+                    $("#viewResolver").show();
+                    placeMaker = '&nbsp &nbsp'+r.schd_loc+'<a href="'+"https://maps.google.com?q="+r.schd_loc+'" target="google_blank" class="marleft-15">'+'지도보기'+'</a>'+'<p></p>';
+                }
+                return placeMaker;
+            }
+
+            function alertFormatter(start, end){
+                var diff = (new Date(start).getTime() - new Date(end).getTime())/(1000*60);
+                var date = "";
+                if(diff == 0){
+                    date = "미리알림 없음";
+                } else if (0 < diff && diff < 60) {
+                    date = diff + "분 전 미리 알림";
+                } else if (diff!=0 && diff < 181 && (diff / 60) < 4) {
+                    date = diff / 60 + "시간 전 미리 알림";
+                } else if (1439 < diff && diff % 1440 == 0) {
+                    date = diff / 1440 + "일 전 미리 알림";
+                } else{
+                    date = '미리알림 없음';
+                }
+                return date;
+            }
+
+            function getFormatDate(date){
+                    var year = date.getFullYear();
+                    var month = (1 + date.getMonth());
+                    month = month >= 10 ? month : '0' + month;
+                    var day = date.getDate();
+                    day = day >= 10 ? day : '0' + day;
+                    return  year + '-' + month + '-' + day;
+                }
+
+            function view(lon, lat){
+                    if(lon != null && lat !=null){
+                        var mapsrc = "<img src=https://maps.googleapis.com/maps/api/staticmap?center="
+                    + lat
+                    + ","
+                    + lon
+                    + "&amp;zoom=15&amp;size=480x300&amp;markers=color:red|"
+                    + lat
+                    + ","
+                    + lon
+                    + "&amp;key=AIzaSyCHe2Zuo-9RXsRMspMgH5jXyMPmunB99fY>";
+                        return mapsrc;
+                    }else{
+                        return "";
+                    }
+            }
+            </script>
+
+            <!-- layer pop up contents -->
+            <div th:replace="fragments/common/layerPopCon :: layerPopCon"></div>
+
+        </div>
+        <!-- body-right-panel:f -->
+
+    </div>
+</div>
+
+<!-- go to top -->
+<a href="#goTop" id="gotoTop"><i class="fas fa-arrow-circle-up size-50 color-black"></i></a>
+
+
+<script src="/js/common.js"></script>
+
+</body>
+</html>
