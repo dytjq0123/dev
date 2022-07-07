@@ -24,13 +24,10 @@
                                 <a th:href="@{https://www.google.com/maps/search/?api=1&query=} + ${timeLine.schedule.schd_loc }" target="google_blank" class="marleft-15">지도보기</a>
                                 <div id="googleMap" class="dis-block" >
                                     <img th:src="@{https://maps.googleapis.com/maps/api/staticmap?center=} + ${timeLine.schedule.schd_lat } + ',' + ${timeLine.schedule.schd_lon } + '&zoom=15&size=800x200&markers=color:red|' + ${timeLine.schedule.schd_lat } + ',' + ${timeLine.schedule.schd_lon } + '&key=AIzaSyCHe2Zuo-9RXsRMspMgH5jXyMPmunB99fY'" style="height:100%; width:100%; border:1px solid black;">
-<!--                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=${timeLine.schedule.schd_lat },${timeLine.schedule.schd_lon }&amp;zoom=15&amp;size=800x200&amp;markers=color:red|${timeLine.schedule.schd_lat },${timeLine.schedule.schd_lon }&amp;key=AIzaSyAmxDFvVfjjBQ0eWrQ2Pgv8odc0L8rbJU4" style="height:100%; width:100%">-->
                                 </div>
                             </dd>
                         </dl>
                     </div>
-<!--                </c:when>-->
-<!--            </c:choose>-->
             </th:block>
             <!-- 위치 검색:f -->
 
@@ -53,7 +50,7 @@
                     <dl>
                         <dt class="maright-20"><i class="fas fa-bell"></i></dt>
                         <dd th:text="${timeLine.schedule.minute} + ' 전 미리알림'">
-                            ${timeLine.schdVo.minute} 전 미리알림
+                            ${timeLine.schedule.minute} 전 미리알림
                         </dd>
                     </dl>
                 </div>

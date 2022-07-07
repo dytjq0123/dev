@@ -21,23 +21,21 @@
 
         <!-- user list:s -->
         <div class="invite-user-list over-y-scroll">
-            <th:block th:each="partner : ${member.partnerList}">
-<!--            <c:forEach items="${ptnMyList }" var="ptnVo">-->
-                <dl class="pop-user-list" th:data-id="${partner.mem_id }" th:data-no="${project.pro_no }" onclick="fn_inviteUserAdd(this)">
+            <th:block th:each="partner : ${#authentication.getPrincipal().getMember().partnerList}">
+                <dl class="pop-user-list" th:data-id="${partner.member.mem_id }" th:data-no="${project.pro_no }" onclick="fn_inviteUserAdd(this)">
                     <dt class="maright-10">
                         <i class="icon-circle circle-s"></i>
-                        <img th:src="@{/mem/pic?mem_id=} + ${partner.ptn_apply.mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
+                        <img th:src="@{/mem/pic?mem_id=} + ${partner.member.mem_id}" onerror="this.src='/image/user-pic-sample.png'" width="40">
                     </dt>
                     <dd>
-                        <strong class="dis-block size-20 color-black" th:text="${partner.ptn_apply.mem_nick}">partner.ptn_apply.mem_nick</strong>
-                        <span class="dis-block size-14 color-gray-l" th:text="${partner.ptn_apply.mem_id}">partner.ptn_apply.mem_id</span>
+                        <strong class="dis-block size-20 color-black" th:text="${partner.member.mem_nick}">partner.member.mem_nick</strong>
+                        <span class="dis-block size-14 color-gray-l" th:text="${partner.member.mem_id}">partner.member.mem_id</span>
                         <button type="button" class="invite-add-btn">
                             <i class="fas fa-plus maright-15"></i>
                             <span>추가</span>
                         </button>
                     </dd>
                 </dl>
-<!--            </c:forEach>-->
             </th:block>
         </div>
         <!-- user list:f -->

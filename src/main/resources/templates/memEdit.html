@@ -44,7 +44,6 @@
                                 <a href="#memInfoEditPop" class="mem-edit-pop-btn">수정</a>
                             </div>
 
-<!--                            <%@include file="/include/mem_edit_info.jsp" %>-->
                             <div th:replace="fragments/member/mem_edit_info :: mem_edit_info"></div>
                         </div>
                     </div>
@@ -55,10 +54,8 @@
                         <div class="mem-box">
 
                             <th:block th:if="${#strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'g') or #strings.equals(#authentication.getPrincipal().getMember().mem_howjoin, 'k')}">
-<!--                            <c:if test="${memVo.mem_howjoin == 'g' || memVo.mem_howjoin == 'k'}">-->
                                 <div class="coming-soon-bg"></div>
                                 <div class="coming-soon-txt pw-edit-soon">비밀번호 수정을 원하시면 해당 사이트(카카오 or 구글)에서 이용해주시기 바랍니다.</div>
-<!--                            </c:if>-->
                             </th:block>
 
                             <i class="fas fa-unlock color-gray"></i>
@@ -72,7 +69,6 @@
                                 <a href="#memPwEditPop" class="mem-edit-pop-btn">수정</a>
                             </div>
 
-<!--                            <%@include file="/include/mem_edit_pw.jsp" %>-->
                             <div th:replace="fragments/member/mem_edit_pw :: mem_edit_pw"></div>
                         </div>
                     </div>

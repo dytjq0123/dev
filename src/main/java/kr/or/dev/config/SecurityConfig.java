@@ -1,6 +1,7 @@
 package kr.or.dev.config;
 
 import kr.or.dev.config.auth.UserDetailsServiceImpl;
+import kr.or.dev.config.oauth.Oauth2DetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
+
+    private final Oauth2DetailsService oauth2DetailsService;
 
     /**
      * 회원 가입시 비밀번호 암호화에 사용할 Encoder 빈 등록
@@ -51,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                // URL별 권한 관리 설정 시작점(authorizeRequests 가 선언되어야 antMatchers 옵션 사용 가능)
                 .authorizeRequests()
                 // login으로 시작되는 url 접근 허용
                 .antMatchers("/login/**", "/chat/**").permitAll()
@@ -71,7 +75,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/login/view")
                 // 세션 전체 삭제
-                .invalidateHttpSession(true);
+                .invalidateHttpSession(true)
+                .and()
+                .oauth2Login()
+                .loginPage("/login/view")
+                .defaultSuccessUrl("/pro/main")
+                .userInfoEndpoint()
+                .userService(oauth2DetailsService);
 
         http.sessionManagement() // 중복 로그인
                 .maximumSessions(1) //세션 최대 허용 수

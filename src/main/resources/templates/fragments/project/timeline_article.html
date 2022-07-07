@@ -15,11 +15,7 @@
             <div class="swiper-container-img">
                 <div class="swiper-wrapper">
                     <th:block th:each="files : ${timeLine.filesList}">
-<!--                    <c:forEach items="${timeLine.filesList }" var="filesVo">-->
-<!--                        <c:if test="${filesVo.files_kind == 'img' }">-->
-                            <div class="swiper-slide img-con" th:if="${#strings.equals(files.files_kind, 'img')}" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} +');'"></div>
-<!--                        </c:if>-->
-<!--                    </c:forEach>-->
+                        <div class="swiper-slide img-con" th:if="${#strings.equals(files.files_kind, 'img')}" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} +');'"></div>
                     </th:block>
                 </div>
                 <!-- Add Arrows -->
@@ -32,22 +28,18 @@
         <!-- 파일리스트:s -->
         <div class="article-file float-left" style="width:100%;">
             <th:block th:each="files : ${timeLine.filesList}">
-<!--            <c:forEach items="${timeLine.filesList }" var="filesVo">-->
-<!--                <c:if test="${filesVo.files_kind == 'file' }">-->
-                    <div class="upload-file-info float-left martop-20" th:if="${#strings.equals(files.files_kind, 'file')}">
-                        <dl>
-                            <dt>
-                                <i class="dis-inblock file-icon" th:data-name="${files.files_name }"></i>
-                            </dt>
-                            <dd>
-                                <span class="dis-block size-18 color-black" th:text="${files.files_name}">files.files_name</span>
-                                <span class="dis-block martop-5 size-14 color-gray" th:text="${files.files_size}">files.files_size</span>
-                            </dd>
-                        </dl>
-                        <a th:href="@{/files/download?files_no=} + ${files.files_no}" class="file-down-btn"><i class="fas fa-download maright-10"></i> 다운로드</a>
-                    </div>
-<!--                </c:if>-->
-<!--            </c:forEach>-->
+                <div class="upload-file-info float-left martop-20" th:if="${#strings.equals(files.files_kind, 'file')}">
+                    <dl>
+                        <dt>
+                            <i class="dis-inblock file-icon" th:data-name="${files.files_name }"></i>
+                        </dt>
+                        <dd>
+                            <span class="dis-block size-18 color-black" th:text="${files.files_name}">files.files_name</span>
+                            <span class="dis-block martop-5 size-14 color-gray" th:text="${files.files_size}">files.files_size</span>
+                        </dd>
+                    </dl>
+                    <a th:href="@{/files/download?files_no=} + ${files.files_no}" class="file-down-btn"><i class="fas fa-download maright-10"></i> 다운로드</a>
+                </div>
             </th:block>
         </div>
         <!-- 파일리스트:f -->
@@ -66,36 +58,28 @@
             <!-- 이미지 목록이 나올부분 -->
             <div class="upload-img-list">
                 <th:block th:each="files : ${timeLine.filesList}">
-<!--                <c:forEach items="${timeLine.filesList }" var="filesVo">-->
-<!--                    <c:if test="${filesVo.files_kind == 'img' }">-->
-                        <div class="upload-img-info martop-20" th:if="${#strings.equals(files.files_kind, 'img')}" th:data-no="${files.files_no }">
-                            <div class="upload-img" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} + ');'"></div>
-                            <i class="fas fa-times-circle img-close-btn" onclick="fileDelete(this)"></i>
-                        </div>
-<!--                    </c:if>-->
-<!--                </c:forEach>-->
+                    <div class="upload-img-info martop-20" th:if="${#strings.equals(files.files_kind, 'img')}" th:data-no="${files.files_no }">
+                        <div class="upload-img" th:style="'background-image:url(/files/view?files_no=' + ${files.files_no} + ');'"></div>
+                        <i class="fas fa-times-circle img-close-btn" onclick="fileDelete(this)"></i>
+                    </div>
                 </th:block>
             </div>
 
             <!-- 첨부파일 목록이 나올부분 -->
             <div class="upload-file-list">
                 <th:block th:each="files : ${timeLine.filesList}">
-<!--                <c:forEach items="${timeLine.filesList }" var="filesVo">-->
-<!--                    <c:if test="${filesVo.files_kind == 'file' }">-->
-                        <div class="upload-file-info martop-20" th:if="${#strings.equals(files.files_kind, 'file')}" th:data-no="${files.files_no }">
-                            <dl>
-                                <dt>
-                                    <i class="dis-inblock file-icon" th:data-name="${files.files_name }"></i>
-                                </dt>
-                                <dd>
-                                    <span class="dis-block size-18 color-black" th:text="${files.files_name}">files.files_name</span>
-                                    <span class="dis-block martop-5 size-14 color-gray" th:text="${files.files_size}">files.files_size</span>
-                                </dd>
-                            </dl>
-                            <i class="far fa-times-circle file-close-btn" onclick="fileDelete(this)"></i>
-                        </div>
-<!--                    </c:if>-->
-<!--                </c:forEach>-->
+                    <div class="upload-file-info martop-20" th:if="${#strings.equals(files.files_kind, 'file')}" th:data-no="${files.files_no }">
+                        <dl>
+                            <dt>
+                                <i class="dis-inblock file-icon" th:data-name="${files.files_name }"></i>
+                            </dt>
+                            <dd>
+                                <span class="dis-block size-18 color-black" th:text="${files.files_name}">files.files_name</span>
+                                <span class="dis-block martop-5 size-14 color-gray" th:text="${files.files_size}">files.files_size</span>
+                            </dd>
+                        </dl>
+                        <i class="far fa-times-circle file-close-btn" onclick="fileDelete(this)"></i>
+                    </div>
                 </th:block>
             </div>
         </div>

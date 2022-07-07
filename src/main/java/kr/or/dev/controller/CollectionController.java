@@ -82,7 +82,7 @@ public class CollectionController {
         model.addAttribute("timeLineList", myCollList);
         model.addAttribute("emoticonList", emoAllList);
         model.addAttribute("artKind", "coll");
-        model.addAttribute("member", "member");
+        model.addAttribute("member", member);
 
         return "collection_article";
 
@@ -100,7 +100,7 @@ public class CollectionController {
         model.addAttribute("timeLineList", myTimeLineList);
         model.addAttribute("emoticonList", emoAllList);
         model.addAttribute("artKind", "my");
-        model.addAttribute("member", "member");
+        model.addAttribute("member", member);
 
         return "collection_article";
 

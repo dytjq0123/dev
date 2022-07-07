@@ -1,24 +1,44 @@
 package kr.or.dev.config.auth;
 
 import kr.or.dev.entity.member.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class UserDetailsImpl implements UserDetails, OAuth2User {
     private static final String ROLE_PREFIX = "ROLE_";
     private Member member;
+    private Map<String, Object> attributes = new HashMap<>();
 
     public void updateMember(Member member) {
         this.member = member;
     }
 
+    public UserDetailsImpl(Member member) {
+        this.member = member;
+    }
+
+    public UserDetailsImpl(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 
     /**
      * 사용자에게 부여된 권한 반환
@@ -26,7 +46,15 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return ROLE_PREFIX + member.getRole().toString();
+            }
+        });
+
+        return collect;
     }
 
     /**
@@ -81,6 +109,13 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public String getName() {
+        String sub = attributes.get("sub").toString();
+        return sub;
     }
 
 

@@ -56,21 +56,12 @@
             <!-- article icon : s -->
             <ul class="article-top-icon">
 
-<!--                <c:if test="${proVo.mem_id == memVo.mem_id }">-->
                     <!-- article pick button -->
                     <li th:if="${project.getMember().mem_no == #authentication.getPrincipal().getMember().mem_no}">
                         <a href="#fixCheck" class="pick-check-btn fixed">
-<!--                            <c:choose>-->
-<!--                                <c:when test="${timeLine.fix_chk == 'y' }">-->
-<!--                                    <i class="fas fa-map-pin size-24 cursor-point pick-active"></i>-->
-<!--                                </c:when>-->
-<!--                                <c:otherwise>-->
-                                    <i class="fas fa-map-pin size-24 cursor-point " th:attrappend="class=${timeLine.fix_chk.equals('y')  ? 'pick-active' : ''}"></i>
-<!--                                </c:otherwise>-->
-<!--                            </c:choose>-->
+                            <i class="fas fa-map-pin size-24 cursor-point " th:attrappend="class=${timeLine.fix_chk.equals('y')  ? 'pick-active' : ''}"></i>
                         </a>
                     </li>
-<!--                </c:if>-->
             </ul>
             <!-- article icon : f -->
 

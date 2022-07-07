@@ -33,7 +33,6 @@
 		function connect() {
 			var ip = [[${chat.chat_ip}]];
 			var port = [[${chat.chat_port}]];
-<!--			wsocket = new WebSocket("ws://" + location.host + "/chat-ws");-->
 			wsocket = new WebSocket("ws://" + ip + ":" + port + "/chat-ws");
 			wsocket.onopen = onOpen;
 			//서버로부터 메시지를 받으면 호출되는 함수 지정

@@ -188,144 +188,19 @@
 
 
                 <!-- kakao login btn -->
-                <a id="custom-login-btn" href="javascript:loginWithKakao()"  class="login-btn login-kakao martop-10">
-                    <!-- <img src="//mud-kage.kakao.com/14/dn/btqbjxsO6vP/KPiGpdnsubSq3a0PHEGUK1/o.jpg" width="380"/> -->
+                <a id="custom-login-btn" href="/oauth2/authorization/kakao"  class="login-btn login-kakao martop-10">
                     <i class="login-icon icon-talk">icon-talk</i>
                     카카오계정으로 로그인
                 </a>
 
-                <!-- kakao login script -->
-                <script type='text/javascript'>
-						//<![CDATA[
-						    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-						    Kakao.init('98239550a54bf93bed19bcecd073ba96'); //98239550a54bf93bed19bcecd073ba96
-						    // 카카오 로그인 버튼을 생성합니다.
-						    function loginWithKakao() {
-
-						    	var pro_no = $(".login-form").find("input[name=pro_no]").val();
-								var apply = $(".login-form").find("input[name=apply]").val();
-								var apply_nick = $(".login-form").find("input[name=mem_nick]").val();
-
-							    // 로그인 창을 띄웁니다.
-							    Kakao.Auth.login({
-									success: function(authObj) {
-										Kakao.API.request({
-											url: '/v1/user/me',
-											success: function(res) {
-// 												alert(JSON.stringify(res)); //<---- kakao.api.request 에서 불러온 결과값 json형태로 출력
-// 												alert(JSON.stringify(authObj)); //<----Kakao.Auth.createLoginButton에서 불러온 결과값 json형태로 출력
-												console.log("id : "+res.id);//<---- 콘솔 로그에 id 정보 출력(id는 res안에 있기 때문에  res.id 로 불러온다)
-												console.log("email : "+res.kaccount_email);//<---- 콘솔 로그에 email 정보 출력 (어딨는지 알겠죠?)
-												console.log("nick : "+res.properties['mem_nick']);//<---- 콘솔 로그에 닉네임 출력(properties에 있는 mem_nick 접근
-												// res.properties.mem_nick으로도 접근 가능 )
-												console.log("token : "+authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
-
-												$.ajax({
-													url : "/login/kakao",
-													method : "post",
-													data : {
-														mem_id:res.kaccount_email,
-														mem_nick:res.properties['mem_nick'],
-														mem_pic:res.properties['profile_image'],
-														pro_no : pro_no,
-														apply : apply,
-														apply_nick : apply_nick},
-													dataType : "json",
-													success : function(data) {
-														if(data == 1){
-															$(".login-form").submit();
-														}else if(data == 3){
-															alert("탈퇴한 회원입니다.");
-															return false;
-														}else {
-															alert("카카오 로그인 실패");
-															return false;
-														}
-													}
-												});
-											}
-										})
-									},
-									fail: function(err) {
-										alert(JSON.stringify(err));
-									}
-							    });
-						    };
-						//]]>
-						</script>
-
 
                 <!-- google login btn -->
-                <div class="g-signin2 martop-10 border-box" data-onsuccess="onSignIn" data-width="380" data-height="60">
-                </div>
-                <!--
-                <div class="login-btn login-google martop-10 cursor-point">
+                <a href="/oauth2/authorization/google" class="login-btn login-google martop-10">
                     <i class="login-icon icon-google">icon-google</i>
                     구글계정으로 로그인
-                </div> -->
+                </a>
                 <!-- 구글연동 end -->
 
-                <style>
-							.abcRioButton {box-shadow:none !important}
-							.abcRioButton:hover {box-shadow:none !important}
-							.abcRioButtonIcon, .abcRioButtonContents {display:none}
-							.g-signin2 .abcRioButton.abcRioButtonLightBlue{background:url("/image/google-login.gif") no-repeat !important}
-						</style>
-
-                <!-- google login scripte -->
-                <script type="text/javascript">
-						function onSignIn(googleUser) {
-
-							var pro_no = $(".login-form").find("input[name=pro_no]").val();
-							var apply = $(".login-form").find("input[name=apply]").val();
-							var apply_nick = $(".login-form").find("input[name=mem_nick]").val();
-
-							// Useful data for your client-side scripts:
-							var profile = googleUser.getBasicProfile();
-							console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-							console.log('Full Name: ' + profile.getName());
-							console.log('Given Name: ' + profile.getGivenName());
-							console.log('Family Name: ' + profile.getFamilyName());
-							console.log("Image URL: " + profile.getImageUrl());
-							console.log("Email: " + profile.getEmail());
-
-							// The ID token you need to pass to your backend:
-							var id_token = googleUser.getAuthResponse().id_token;
-							console.log("ID Token: " + id_token);
-
-							$.ajax({
-								url : "/login/google",
-								method : "post",
-								data : {
-									mem_id:profile.getEmail(),
-									mem_nick:profile.getName(),
-									mem_pic:profile.getImageUrl(),
-									pro_no : pro_no,
-									apply : apply,
-									apply_nick : apply_nick},
-								dataType : "json",
-								success : function(data) {
-									if(data == 1){
-										$(".login-form").submit();
-									}else if(data == 3){
-										alert("탈퇴한 회원입니다.");
-										return false;
-									}else{
-										alert("구글 로그인 실패");
-										return false;
-									}
-								}
-							});
-						};
-
-						function signOut() {
-							var auth2 = gapi.auth2.getAuthInstance();
-							auth2.signOut().then(function () {
-								console.log('User signed out.');
-							});
-						}
-
-						</script>
             </form>
             <!-- login:f -->
 
@@ -683,14 +558,6 @@
                     </div>
                     <a id="Phone_msgBtn" class="check-btn color-gray"><i class="far fa-check"></i></a>
                 </div>
-
-                <!-- phone number check input -->
-<!--                <div class="input-box dis-block martop-10 border-box">-->
-<!--                    <input type="text" id="phoneChkNum" name="phoneChkNum" placeholder="인증번호">-->
-<!--                    <div class="color-green-l alert-box">-->
-<!--                    </div>-->
-<!--                    <a id="PhoneCf_chBtn" class="check-btn color-gray"><i class="fas fa-check"></i></a>&lt;!&ndash; default &ndash;&gt;-->
-<!--                </div>-->
 
                 <!-- submit btn-->
                 <input type="button" id="findIdSubmit" name="findIdbtn" value="아이디 찾기" class="submit-btn default-back-color martop-30">
